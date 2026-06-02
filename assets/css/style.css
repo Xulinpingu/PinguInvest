@@ -1,0 +1,21 @@
+:root {
+    /* Dark colors */
+    --bg-page-d: #121018;
+    --secondary-color-d: #1E1A2B;
+    --terciary-color-d: #7A3FD1;
+    --text-d: #F5F3FA;
+    --secondary-test-d: #B8B1C9;
+    --profit-d: #2ED47A;
+    --loss-d: #FF5C7A;
+    --border-d: #312A45;
+
+    /* Light colors */
+    --bg-page-l: #F6F4FB;
+    --secondary-color-l: #FFFFFF;
+    --terciary-color-l: #6B35C9 ;
+    --text-l: #1D1830;
+    --secondary-text-l: #6F6883;
+    --profit-l: #1FB86A;
+    --loss-l: #E54866;
+    --border-l: #DDD6EE;
+}
