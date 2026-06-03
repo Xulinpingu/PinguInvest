@@ -68,7 +68,21 @@ src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg
 
 ## 📂 Estrutura do Projeto
 
---> Fazer
+Abaixo está a estruturado projeto:
+
+```
+PinguInvest/
+├─ assets/
+│  ├─ css/
+│  ├─ images/
+│  │  ├─ icons/
+│  │  └─ logo/
+│  └─ js/
+├─ config/
+├─ databse/
+├─ includes/
+└─ pages/
+```
 
 ---
 

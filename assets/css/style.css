@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
 :root {
     /* Dark colors */
     --bg-page-d: #121018;
@@ -12,10 +14,143 @@
     /* Light colors */
     --bg-page-l: #F6F4FB;
     --secondary-color-l: #FFFFFF;
-    --terciary-color-l: #6B35C9 ;
+    --terciary-color-l: #6B35C9;
     --text-l: #1D1830;
     --secondary-text-l: #6F6883;
     --profit-l: #1FB86A;
     --loss-l: #E54866;
     --border-l: #DDD6EE;
 }
+
+/* reset */
+
+* {
+    border: 0;
+    margin: 0;
+    padding: 0;
+
+    font-family: Rubik;
+    color: var(--text-d);
+}
+
+/* Body Header */
+
+body {
+    background-color: var(--bg-page-d);
+}
+
+header {
+    background-color: var(--secondary-color-d);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 20px;
+}
+
+header img {
+    width: 120px;
+}
+
+/* Navigation */
+
+.navbar {
+    position: relative;
+    padding: 15px 0;
+}
+
+.hamburger {
+    background-color: var(--terciary-color-d);
+
+    width: 45px;
+    height: 45px;
+
+    border-radius: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.hamburger:hover {
+    transform: scale(1.05);
+}
+
+.hamburger:active {
+    transform: scale(0.95);
+}
+
+.menu {
+    position: absolute;
+
+    top: 25px;
+    right: 15px;
+
+    width: 220px;
+
+    background-color: var(--secondary-color-d);
+
+    border: 1px solid rgba(122, 63, 209, 0.4);
+
+    border-radius: 12px;
+
+    list-style: none;
+
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    padding: 10px;
+
+    z-index: 1000;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.35),
+        0 0 15px rgba(122, 63, 209, 0.15);
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-15px);
+
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease,
+        visibility 0.3s ease;
+}
+
+.menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.menu li a {
+    color: var(--text-d);
+
+    text-decoration: none;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+
+    transition: 0.2s;
+}
+
+.menu li a:hover {
+    background-color: var(--terciary-color-d);
+    transform: translateX(4px);
+}
+
+#menu-icon {
+    width: 30px;
+    height: 30px;
+}
+
+/* --- */
