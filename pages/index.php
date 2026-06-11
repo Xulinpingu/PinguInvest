@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PinguInvest</title>
+    <link rel="icon" type="image/png" href="../assets/images/logo/pinguin.png">
     <link rel="stylesheet" href="../assets/css/style.css">
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <script defer src="../assets/js/functions.js"></script>
@@ -11,6 +12,6 @@
 <body>
     <?php require_once "../includes/header.php" ?>
 
-    
+    <?php require_once "../includes/footer.php" ?>
 </body>
 </html>
