@@ -6,7 +6,7 @@
     --secondary-color-d: #1E1A2B;
     --terciary-color-d: #7A3FD1;
     --text-d: #F5F3FA;
-    --secondary-test-d: #B8B1C9;
+    --secondary-text-d: #B8B1C9;
     --profit-d: #2ED47A;
     --loss-d: #FF5C7A;
     --border-d: #312A45;
@@ -39,17 +39,52 @@ body {
     background-color: var(--bg-page-d);
 }
 
-header {
+header, footer {
     background-color: var(--secondary-color-d);
+    padding: 0 20px;
     display: flex;
+}
+
+header{
     align-items: center;
     justify-content: space-between;
-
-    padding: 0 20px;
 }
 
 header img {
-    width: 100px;
+    width: 75px;
+}
+
+footer {
+    margin-top: 20px;
+    flex-direction: column;
+    text-align: center;
+}
+
+footer span, footer ul {
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+footer li{
+    list-style: none;
+}
+
+footer div{
+    margin: 10px 0;
+}
+
+footer div a {
+    color: var(--terciary-color-d);
+    font-weight: bold;
+    border: 2px solid var(--terciary-color-d);
+    text-decoration: none;
+    width: 20%;
+    padding: 2px;
+    border-radius: 10px;
+}
+
+footer div a:active {
+    font-size: 14px;
 }
 
 /* Navigation */
@@ -153,9 +188,7 @@ header img {
     height: 30px;
 }
 
-/* ==========================
-   WALLET
-========================== */
+/* WALLET */
 
 .wallet-container {
     display: flex;
@@ -277,4 +310,202 @@ header img {
     justify-content: center;
 
     color: var(--secondary-test-d);
+}
+
+/* ADD_BTN */
+
+#add-btn{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9998; 
+    padding: 15px 17px 12px 17px;
+    background-color: var(--terciary-color-d);
+    color: #fff;
+    font-size: 25px;
+
+    border-radius: 20px;
+    box-shadow: 0 0px 10px var(--terciary-color-d);
+    transition: 0.1 ease;
+}
+
+
+#add-btn:active{
+    transform: scale(90%);
+}
+
+#add-popup{
+    position: fixed ;
+    width: 100%;
+    height: 100%;
+    margin-top: 15%;
+    background-color: var(--secondary-color-d);
+    z-index: 9999;
+    border-radius: 20px;
+    transition: 0.7s ease;
+}
+
+#add-popup form {
+    padding: 30px 10px;
+    height: 100%;
+}
+
+#add-popup form div{
+    height: 30%;
+}
+
+#add-popup form .options-invest label {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 20px;
+}
+
+#add-popup form .options-invest .options-invest-btns {
+  display: grid;
+  grid-template-columns: 4fr 4fr 4fr;
+  padding: 10px;
+  row-gap: 10px;
+  column-gap: 10px;
+}
+
+#add-popup form .options-invest .options-invest-btns button {
+  background-color: var(--bg-page-d);
+  border: 2px solid var(--border-d);
+  padding: 10px;
+  font-size: 15px;
+  text-align: center;
+  height: 80px;
+  border-radius: 20px;
+}
+
+#add-popup form .options-invest .options-invest-btns button p {
+    color: var(--secondary-text-d);
+}
+
+#add-popup form .options-invest .options-invest-btns .selected-invest {
+    border: 2px solid var(--terciary-color-d);
+    background-color: var(--secondary-color-d);
+}
+
+#add-popup form .options-invest .options-invest-btns .selected-invest p{
+    color: var(--terciary-color-d);
+}
+
+#add-popup form .invest-inputs{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#add-popup form .invest-inputs .invest-inputs-num{
+    display: flex;
+    margin-top: 20px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+#add-popup form .invest-inputs .invest-inputs-txt, #add-popup form .invest-inputs .invest-inputs-num div{
+    display: flex;
+    flex-direction: column;
+}
+
+#add-popup form .invest-inputs .invest-inputs-num div{
+    width: 48%;
+}
+
+#add-popup form .invest-inputs div input  {
+    background-color: var(--bg-page-d);
+    border: 2px solid var(--border-d);
+    color: var(--secondary-text-d);
+    font-size: 15px;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 5px;
+}
+
+#add-popup form .invest-btns {
+    display: flex;
+    flex-direction: column;
+}
+
+#add-popup form .invest-btns button{
+    height: auto;
+    margin: 10px 0;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#add-popup form .invest-btns .confirm-btn{
+    background-color: var(--terciary-color-d);
+}
+
+#add-popup form .invest-btns .cancel-btn{
+    background-color: var(--bg-page-d);
+    border: 2px solid var(--border-d);
+    color: var(--secondary-text-d);
+}
+
+.overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    transition: opacity 0.7s ease;
+}
+
+.hidden {
+    transform: translateY(100%);
+    opacity: 0;
+}
+
+.overlay.hidden{
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* tooltip codigo */
+
+
+.label-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+}
+
+
+.tooltip-btn {
+    position: relative;
+    display: inline-flex;
+    background-color: var(--secondary-color-d);
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: help;
+}
+
+.tooltip-text {
+    display: none;
+    position: absolute;
+    width: 220px;
+    padding: 10px;
+    border-radius: 10px;
+    background: var(--secondary-color-d);
+    border: 1px solid var(--border-d);
+}
+
+.tooltip:hover .tooltip-text {
+    opacity: 1;
+    visibility: visible;
+}
+
+.tooltip-text.active {
+    display: block;
 }

@@ -52,7 +52,8 @@ CREATE TABLE ativos (
         'FII',
         'ETF',
         'CRIPTO',
-        'RENDA_FIXA'
+        'RENDA_FIXA',
+        'OUTROS'
     ) NOT NULL,
 
     quantidade DECIMAL(12,2) NOT NULL,
