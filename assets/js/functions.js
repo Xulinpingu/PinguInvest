@@ -10,8 +10,11 @@ menuAnimation.setSpeed(1.8);
 
 let aberto = false;
 
+const menuElement = document.getElementById("menu");
+const hamburgerButton = document.querySelector(".hamburger");
+
 function toggleMenu() {
-    document.getElementById("menu").classList.toggle("active");
+    menuElement.classList.toggle("active");
 
     if (!aberto) {
         menuAnimation.playSegments([0, 91], true);
@@ -21,3 +24,16 @@ function toggleMenu() {
 
     aberto = !aberto;
 }
+
+document.addEventListener("click", function(event) {
+    if (!aberto) {
+        return;
+    }
+
+    const clickedInsideMenu = menuElement.contains(event.target);
+    const clickedHamburger = hamburgerButton.contains(event.target);
+
+    if (!clickedInsideMenu && !clickedHamburger) {
+        toggleMenu();
+    }
+});
