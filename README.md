@@ -48,7 +48,6 @@ Desenvolver uma plataforma moderna e intuitiva capaz de auxiliar investidores in
 
 ### 💰 Carteira de Investimentos
 - Cadastro de ativos;
-- Atualização de posições;
 - Controle patrimonial.
 
 ### 📈 Dashboard
@@ -69,6 +68,7 @@ Desenvolver uma plataforma moderna e intuitiva capaz de auxiliar investidores in
 - Ações
 - Fundos Imobiliários (FIIs)
 - Renda Fixa
+- ETFs
 - Criptomoedas
 
 ---
@@ -107,8 +107,7 @@ PinguInvest/
 ├── includes/
 ├── pages/
 ├── planejamento/
-├── README.md
-└── LICENSE
+└── README.md
 ```
 
 ---
