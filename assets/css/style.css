@@ -509,3 +509,107 @@ footer div a:active {
 .tooltip-text.active {
     display: block;
 }
+
+/* ativos */
+
+#last-card {
+    margin-bottom: 70px
+}
+
+.ativos-lista{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ativo-card{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #312A45;
+    padding-bottom: 12px;
+}
+
+.ativo-esquerda{
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.ativo-logo{
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+
+    border-radius: 12px;
+
+    background: #793fd146;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 12px;
+    font-weight: 750;
+    color: #7e45d3;
+}
+
+.ativo-info{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    flex: 1;
+    min-width: 0;
+}
+
+.ativo-topo{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.ativo-nome{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.badge-tipo{
+    background: rgba(122,63,209,0.2);
+    color: var(--terciary-color-d);
+
+    padding: 2px 8px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+}
+
+.ativo-detalhes{
+    color: var(--secondary-text-d);
+    font-size: 14px;
+}
+
+.ativo-direita{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+
+    flex-shrink: 0;
+}
+
+.ativo-valor{
+    white-space: nowrap;
+}
+
+.lucro{
+    color: var(--profit-d);
+    font-size: 14px;
+}
+
+.prejuizo{
+    color: var(--loss-d);
+    font-size: 14px;
+}

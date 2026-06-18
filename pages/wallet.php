@@ -1,3 +1,35 @@
+<?php
+require_once "../config/connDB.php";
+
+$idUser = 1;
+
+$sql = "
+    SELECT COALESCE(SUM(quantidade * preco_medio), 0)
+    FROM ativos
+    WHERE id_usuario = :id_usuario";
+
+$stmt = $pdo->prepare($sql);
+
+$stmt->execute([
+    ':id_usuario' => $idUser
+]);
+
+$patrimonioTotal = $stmt->fetchColumn();
+
+$sqlAtivos = "
+    SELECT * FROM ativos
+    WHERE id_usuario = :id_usuario";
+
+$stmtAtivos = $pdo->prepare($sqlAtivos);
+
+$stmtAtivos->execute([
+    ':id_usuario' => $idUser
+]);
+
+$ativos = $stmtAtivos->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -22,11 +54,10 @@
 </head>
 <body>
     <?php require_once "../includes/header.php" ?>
-    <?php require_once "../config/connDB.php" ?>
 
     <div class="overlay hidden"></div>
     <div class="hidden" id="add-popup">
-        <form action="" method="POST">
+        <form action="../actions/add_ativos.php" method="POST">
             <div class="options-invest">
                 <label for="opt-invest">Adiconar Ativo</label>
                 <input type="hidden" name="opt-invest" id="opt-invest" value="ACAO">
@@ -82,13 +113,13 @@
 
                 <div class="invest-inputs-num">
                     <div>
-                        <label for="preco-invest">PREÇO DE MÉDIO (R$)</label>
-                        <input type="number" id="preco-invest" name="preco-invest" placeholder="R$ 0,00" required>
+                        <label for="preco-invest">PREÇO (R$)</label>
+                        <input type="number"step="0.01" min="0" id="preco-invest" name="preco-invest" placeholder="R$ 0,00" required>
                     </div>
 
                     <div>
                         <label for="quantidade-invest">QUANTIDADE</label>
-                        <input type="number" id="quantidade-invest" name="quantidade-invest" placeholder="0" required>
+                        <input type="number" step="0.01" min="0" id="quantidade-invest" name="quantidade-invest" placeholder="0" required>
                     </div>
                 </div>
             </div>
@@ -109,7 +140,7 @@
 
             <span class="wallet-label">PATRIMÔNIO TOTAL</span>
 
-            <h1>R$ 0,00</h1>
+            <h1>R$ <?= number_format($patrimonioTotal, 2, ',', '.') ?></h1>
 
             <p class="wallet-profit">▲ 0,00% hoje</p>
 
@@ -146,6 +177,72 @@
 
                 <div class="placeholder-chart">
                     Pizza em breve
+                </div>
+            </div>
+
+            <div class="dashboard-card" id="last-card">
+                <h3>Seus Ativos</h3>
+
+                <div class="ativos-lista">
+
+                    <?php foreach($ativos as $ativo): ?>
+
+                    <?php
+                    $valorTotal = $ativo['quantidade'] * $ativo['valor_atual'];
+
+                    $retornoPercentual = 0;
+
+                    if($ativo['preco_medio'] > 0){
+                        $retornoPercentual =
+                            (($ativo['valor_atual'] - $ativo['preco_medio'])
+                            / $ativo['preco_medio']) * 100;
+                    }
+                    ?>
+
+                    <div class="ativo-card">
+
+                        <div class="ativo-esquerda">
+
+                            <div class="ativo-logo">
+                                <?= substr($ativo['codigo'], 0, 4) ?>
+                            </div>
+
+                            <div class="ativo-info">
+
+                                <div class="ativo-topo">
+                                    <strong class="ativo-nome"><?= htmlspecialchars($ativo['codigo']) ?></strong>
+
+                                    <span class="badge-tipo">
+                                        <?= str_replace('_', ' ', $ativo['tipo']) ?>
+                                    </span>
+                                </div>
+
+                                <span class="ativo-detalhes">
+                                    <?= number_format($ativo['quantidade'], 2, ',', '.') ?> un <br>
+                                    PM R$ <?= number_format($ativo['preco_medio'], 2, ',', '.') ?>
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="ativo-direita">
+
+                            <strong class="ativo-valor">
+                                R$ <?= number_format($valorTotal, 2, ',', '.') ?>
+                            </strong>
+
+                            <span class="<?= $retornoPercentual >= 0 ? 'lucro' : 'prejuizo' ?>">
+                                <?= $retornoPercentual >= 0 ? '+' : '' ?>
+                                <?= number_format($retornoPercentual, 2, ',', '.') ?>%
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <?php endforeach; ?>
+
                 </div>
             </div>
 
@@ -217,46 +314,3 @@
 
 </script>   
 </html>
-
-<?php
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $tipo = trim($_POST['opt-invest'] ?? '');
-    $codigo = trim($_POST['codigo-invest'] ?? '');
-    $nome = trim($_POST['nome-invest'] ?? '');
-    $precoM = trim($_POST['preco-invest'] ?? '');
-    $quant = trim($_POST['quantidade-invest'] ?? '');
-
-    $tipoComCodigoObr = ['ACAO', 'FII', 'ETF', 'CRIPTO'];
-
-    if (in_array($tipo, $tipoComCodigoObr) && empty($codigo)) {
-        die("Código é obrigatório para este tipo de ativo.");
-    }
-
-    if (empty($codigo)) {
-        $nomeLimpo = preg_replace('/[^a-zA-Z0-9]/', '', $nome);
-        $codigo = strtoupper(substr($nomeLimpo, 0, 4));
-    }
-
-    $idCarteira = 1;
-
-    $sql = "INSERT INTO ativos 
-            (id_carteira, codigo, nome, tipo, quantidade, preco_medio)
-            VALUES
-            (:id_carteira, :codigo, :nome, :tipo, :quantidade, :preco_medio)";
-    
-    $stmt = $pdo->prepare($sql);
-
-    $stmt->execute([
-        ':id_carteira' => $idCarteira,
-        ':codigo' => $codigo,
-        ':nome' => $nome,
-        ':tipo' => $tipo,
-        ':quantidade' => $quant,
-        ':preco_medio' => $precoM,
-    ]);
-
-}
-
-?>

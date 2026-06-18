@@ -18,31 +18,13 @@ CREATE TABLE usuarios (
 );
 
 -- =========================
--- CARTEIRAS
--- =========================
-
-CREATE TABLE carteiras (
-    id_carteira INT AUTO_INCREMENT PRIMARY KEY,
-
-    id_usuario INT NOT NULL,
-
-    nome VARCHAR(100) NOT NULL DEFAULT 'Carteira Principal',
-
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (id_usuario)
-        REFERENCES usuarios(id_usuario)
-        ON DELETE CASCADE
-);
-
--- =========================
--- ATIVOS DA CARTEIRA
+-- ATIVOS
 -- =========================
 
 CREATE TABLE ativos (
     id_ativo INT AUTO_INCREMENT PRIMARY KEY,
 
-    id_carteira INT NOT NULL,
+    id_usuario INT NOT NULL,
 
     codigo VARCHAR(15) NOT NULL,
     nome VARCHAR(100) NOT NULL,
@@ -56,14 +38,42 @@ CREATE TABLE ativos (
         'OUTROS'
     ) NOT NULL,
 
-    quantidade DECIMAL(12,2) NOT NULL,
-
-    preco_medio DECIMAL(12,2) NOT NULL,
+    quantidade DECIMAL(15,4) NOT NULL,
+    preco_medio DECIMAL(15,2) NOT NULL,
+    valor_atual DECIMAL(15,2) NOT NULL,
 
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (id_carteira)
-        REFERENCES carteiras(id_carteira)
+    FOREIGN KEY (id_usuario)
+        REFERENCES usuarios(id_usuario)
+        ON DELETE CASCADE,
+
+    UNIQUE(id_usuario, codigo)
+);
+
+-- =========================
+-- MOVIMENTAÇÕES
+-- =========================
+
+CREATE TABLE movimentacoes (
+    id_movimentacao INT AUTO_INCREMENT PRIMARY KEY,
+
+    id_usuario INT NOT NULL,
+    id_ativo INT NOT NULL,
+
+    tipo ENUM('COMPRA', 'VENDA') NOT NULL,
+
+    quantidade DECIMAL(15,4) NOT NULL,
+    preco_unitario DECIMAL(15,2) NOT NULL,
+
+    data_movimentacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_usuario)
+        REFERENCES usuarios(id_usuario)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (id_ativo)
+        REFERENCES ativos(id_ativo)
         ON DELETE CASCADE
 );
 
@@ -74,38 +84,13 @@ CREATE TABLE ativos (
 CREATE TABLE historico_carteira (
     id_historico INT AUTO_INCREMENT PRIMARY KEY,
 
-    id_carteira INT NOT NULL,
+    id_usuario INT NOT NULL,
 
-    valor_total DECIMAL(14,2) NOT NULL,
+    valor_total DECIMAL(15,2) NOT NULL,
 
-    data_registro DATE NOT NULL,
+    registrado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (id_carteira)
-        REFERENCES carteiras(id_carteira)
-        ON DELETE CASCADE
-);
-
--- =========================
--- MOVIMENTAÇÕES (FUTURO)
--- =========================
-
-CREATE TABLE movimentacoes (
-    id_movimentacao INT AUTO_INCREMENT PRIMARY KEY,
-
-    id_ativo INT NOT NULL,
-
-    tipo ENUM(
-        'COMPRA',
-        'VENDA'
-    ) NOT NULL,
-
-    quantidade DECIMAL(12,2) NOT NULL,
-
-    preco_unitario DECIMAL(12,2) NOT NULL,
-
-    data_operacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (id_ativo)
-        REFERENCES ativos(id_ativo)
+    FOREIGN KEY (id_usuario)
+        REFERENCES usuarios(id_usuario)
         ON DELETE CASCADE
 );

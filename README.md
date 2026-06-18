@@ -6,6 +6,18 @@
 
 ---
 
+## 👨‍💻 Autores
+
+<ul>
+  <li>Bruno Lourenço de Lima</li>
+  <li>Henrique Silvestre Martin</li>
+  <li>Isaac Faleiros Quevedo</li>
+</ul>
+
+Projeto desenvolvido para fins acadêmicos.
+
+---
+
 ## 📖 Sobre o Projeto
 
 A **PinguInvest** é uma plataforma desenvolvida para auxiliar usuários no gerenciamento de investimentos e na organização financeira.
@@ -56,6 +68,9 @@ src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg">
 
 <img align="center" alt="JavaScript" height="40" width="50"
 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg">
+
+<img align="center" alt="PHP" height="40" width="70"
+src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/PHP-logo.svg/1280px-PHP-logo.svg.png">
 
 <img align="center" alt="MySQL" height="40" width="50"
 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg">
@@ -137,11 +152,3 @@ A identidade visual da **PinguInvest** foi criada para transmitir uma aparência
 
 📧 Email: pinguinvest@gmail.com  
 📱 Telefone: +55 11 95544-6742
-
----
-
-## 👨‍💻 Autor
-
---> colocar nomes
-
-Projeto desenvolvido para fins acadêmicos.
