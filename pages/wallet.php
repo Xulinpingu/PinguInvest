@@ -260,6 +260,7 @@ $ativos = $stmtAtivos->fetchAll(PDO::FETCH_ASSOC);
     const buttons_invest = document.querySelectorAll(".options-invest-btns button");
 
     const popup = document.querySelector("#add-popup");
+    const popup_btn = document.querySelector("#add-btn");
     const overlay = document.querySelector(".overlay");
     
     function selectInvestType(type, button) {
@@ -288,6 +289,18 @@ $ativos = $stmtAtivos->fetchAll(PDO::FETCH_ASSOC);
         popup.classList.remove("hidden");
         overlay.classList.remove("hidden");
     }
+
+    document.addEventListener("click", function(event) {
+        if (popup_btn.contains(event.target)) {
+            return;
+        }
+
+        const clickedAddPopup = popup.contains(event.target);
+
+        if (!clickedAddPopup) {
+            closePopup();
+        }
+    });
 
     const addBtn = document.getElementById("add-btn");
     const footer = document.querySelector("footer");
