@@ -41,7 +41,7 @@ body {
 
 header, footer {
     background-color: var(--secondary-color-d);
-    padding: 0 20px;
+    padding: 10px 20px;
     display: flex;
 }
 
