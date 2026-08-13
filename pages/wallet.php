@@ -1,12 +1,17 @@
 <?php
 require_once "../config/connDB.php";
 
+$soma_percentual = 0;
+$investido = 0;
+$soma_valHoje = 0;
+
 $idUser = 1;
 
 $sql = "
-    SELECT COALESCE(SUM(quantidade * preco_medio), 0)
-    FROM ativos
-    WHERE id_usuario = :id_usuario";
+    SELECT valor_total
+    FROM historico_carteira
+    WHERE id_usuario = :id_usuario
+    ORDER BY id_historico DESC LIMIT 1";
 
 $stmt = $pdo->prepare($sql);
 
@@ -27,6 +32,26 @@ $stmtAtivos->execute([
 ]);
 
 $ativos = $stmtAtivos->fetchAll(PDO::FETCH_ASSOC);
+
+// Preparar para pegar soma valorizaçãoes de cada ativo
+$sqlValorizacoes = " SELECT SUM(valorizacao_diaria) FROM valorizacao_ativos
+                    WHERE id_usuario = :id_usuario AND id_ativo = :id_ativo";
+$stmtValorizacoes = $pdo->prepare($sqlValorizacoes);
+
+// Preparar para pegar soma valorizaçãoes de hoje
+$sqlValorizacaoHoje = " SELECT SUM(valorizacao_diaria) FROM valorizacao_ativos
+                        WHERE id_usuario = :id_usuario AND data_val = CURDATE()";
+$stmtValorizacaoHoje = $pdo->prepare($sqlValorizacaoHoje);
+$stmtValorizacaoHoje->execute([
+    ':id_usuario' => $idUser
+]);
+$valorizacaoHoje = $stmtValorizacaoHoje->fetchColumn();
+
+$sql = "SELECT (quantidade * preco_unitario) AS multiRow FROM movimentacoes";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$movimentacoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
 ?>
 
@@ -142,24 +167,44 @@ $ativos = $stmtAtivos->fetchAll(PDO::FETCH_ASSOC);
 
             <h1>R$ <?= number_format($patrimonioTotal, 2, ',', '.') ?></h1>
 
-            <p class="wallet-profit">▲ 0,00% hoje</p>
+            <?php 
+
+            foreach($ativos as $ativo){
+                $stmtValorizacoes->execute([
+                        ':id_usuario' => $idUser,
+                        ':id_ativo' => $ativo['id_ativo']
+                    ]);
+                $valorizacao = $stmtValorizacoes->fetchColumn();
+                
+                $soma_percentual += $valorizacao;
+            }
+
+            
+            foreach($movimentacoes as $move){
+                $investido += $move['multiRow'];
+            }
+
+            ?>
+
+            <p class="wallet-profit">▲<?= round($valorizacaoHoje, 2) ?>% hoje</p>
 
             <div class="wallet-stats">  
                 <div>
                     <span>INVESTIDO</span>
-                    <strong>R$ 0,00</strong>
+                    <strong>R$ <?= round($investido, 2) ?></strong>
                 </div>
 
                 <div>
                     <span>RETORNO</span>
-                    <strong>R$ 0,00</strong>
+                    <strong>R$ <?= (round($patrimonioTotal, 2) - round($investido, 2)) ?></strong>
                 </div>
 
                 <div>
                     <span>% TOTAL</span>
-                    <strong>0,00%</strong>
+                    <strong><?= round($soma_percentual, 2) ?>%</strong>
                 </div>
             </div>
+
         </section>
 
         <section class="dashboard-grid">
@@ -188,22 +233,22 @@ $ativos = $stmtAtivos->fetchAll(PDO::FETCH_ASSOC);
                     <?php foreach($ativos as $ativo): ?>
 
                     <?php
-                    $valorTotal = $ativo['quantidade'] * $ativo['valor_atual'];
+                        $stmtValorizacoes->execute([
+                            ':id_usuario' => $idUser,
+                            ':id_ativo' => $ativo['id_ativo']
+                        ]);
+                        $valorizacao = $stmtValorizacoes->fetchColumn();
 
-                    $retornoPercentual = 0;
+                        $retornoPercentual = $valorizacao;
+                        $valorTotal = $ativo['quantidade'] * $ativo['valor_atual'];
 
-                    if($ativo['preco_medio'] > 0){
-                        $retornoPercentual =
-                            (($ativo['valor_atual'] - $ativo['preco_medio'])
-                            / $ativo['preco_medio']) * 100;
-                    }
                     ?>
 
                     <div class="ativo-card">
 
                         <div class="ativo-esquerda">
 
-                            <div class="ativo-logo">
+                            <div class="ativo-logo <?= strtolower($ativo['tipo']) ?>">
                                 <?= substr($ativo['codigo'], 0, 4) ?>
                             </div>
 
@@ -212,7 +257,7 @@ $ativos = $stmtAtivos->fetchAll(PDO::FETCH_ASSOC);
                                 <div class="ativo-topo">
                                     <strong class="ativo-nome"><?= htmlspecialchars($ativo['codigo']) ?></strong>
 
-                                    <span class="badge-tipo">
+                                    <span class="badge-tipo <?= strtolower($ativo['tipo']) ?>">
                                         <?= str_replace('_', ' ', $ativo['tipo']) ?>
                                     </span>
                                 </div>
@@ -232,8 +277,8 @@ $ativos = $stmtAtivos->fetchAll(PDO::FETCH_ASSOC);
                                 R$ <?= number_format($valorTotal, 2, ',', '.') ?>
                             </strong>
 
-                            <span class="<?= $retornoPercentual >= 0 ? 'lucro' : 'prejuizo' ?>">
-                                <?= $retornoPercentual >= 0 ? '+' : '' ?>
+                            <span class="<?= $retornoPercentual > 0 ? 'lucro' : ''?> <?= $retornoPercentual == 0 ? 'neutro' : ''?> <?= $retornoPercentual < 0 ? 'prejuizo' : '' ?>">
+                                <?= $retornoPercentual > 0 ? '+' : ''?>
                                 <?= number_format($retornoPercentual, 2, ',', '.') ?>%
                             </span>
 

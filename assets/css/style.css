@@ -275,7 +275,7 @@ footer div a:active {
 }
 
 .wallet-stats strong {
-    font-size: 1rem;
+    font-size: 0.85rem;
 }
 
 .dashboard-grid {
@@ -543,15 +543,13 @@ footer div a:active {
 
     border-radius: 12px;
 
-    background: #793fd146;
-
     display: flex;
     justify-content: center;
     align-items: center;
 
     font-size: 12px;
     font-weight: 750;
-    color: #7e45d3;
+
 }
 
 .ativo-info{
@@ -576,9 +574,6 @@ footer div a:active {
 }
 
 .badge-tipo{
-    background: rgba(122,63,209,0.2);
-    color: var(--terciary-color-d);
-
     padding: 2px 8px;
 
     border-radius: 999px;
@@ -612,4 +607,39 @@ footer div a:active {
 .prejuizo{
     color: var(--loss-d);
     font-size: 14px;
+}
+
+.neutro{
+    color: var(--secondary-text-d);
+    font-size: 14px;
+}
+
+.acao{
+    background: #3b2358;
+    color: #9b5cff;
+}
+
+.cripto{
+    background: #4d3926;
+    color: #ffb020;
+}
+
+.etf{
+    background: #223457;
+    color: #5db7ff;
+}
+
+.renda_fixa{
+    background: #1f4738;
+    color: #2ee66b;
+}
+
+.fii{
+    background: #4a2431;
+    color: #ff4d5f;
+}
+
+.outros{
+    background: #3d3d4b;
+    color: #d4d4d8;
 }

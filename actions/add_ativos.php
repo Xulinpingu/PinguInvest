@@ -7,12 +7,12 @@ $idUser = 1;
 $tipo = trim($_POST['opt-invest'] ?? '');
 $codigo = strtoupper($_POST['codigo-invest'] ?? '');
 $nome = trim($_POST['nome-invest'] ?? '');
-$precoM = (float) ($_POST['preco-invest'] ?? 0);
+$precoAt = (float) ($_POST['preco-invest'] ?? 0);
 $quant = (float)($_POST['quantidade-invest'] ?? 0);
 
 $tipoComCodigoObr = ['ACAO', 'FII', 'ETF', 'CRIPTO'];
 
-if ( empty($tipo) || empty($nome) || $precoM <= 0 || $quant <= 0) {
+if ( empty($tipo) || empty($nome) || $precoAt <= 0 || $quant <= 0) {
     die("Dados inválidos.");
 }
 
@@ -23,6 +23,16 @@ if (in_array($tipo, $tipoComCodigoObr) && empty($codigo)) {
 if (empty($codigo)) {
     $nomeLimpo = preg_replace('/[^a-zA-Z0-9]/', '', $nome);
     $codigo = strtoupper(substr($nomeLimpo, 0, 4));
+}
+
+function RetornoPercentual($preco_medio, $valor_atual) {
+    $retornoPercentual = 0;
+
+    if($preco_medio > 0){
+        $retornoPercentual = (($valor_atual - $preco_medio) / $preco_medio) * 100;
+    }   
+
+    return $retornoPercentual;
 }
 
 try {
@@ -44,7 +54,7 @@ try {
     if ($ativoExistente) {
         $valorAntigo = $ativoExistente['quantidade'] * $ativoExistente['preco_medio'];
 
-        $valorNovo = $quant * $precoM;
+        $valorNovo = $quant * $precoAt;
 
         $novaQuantidade = $ativoExistente['quantidade'] + $quant;
 
@@ -54,7 +64,8 @@ try {
             UPDATE ativos
             SET
                 quantidade = :quantidade,
-                preco_medio = :preco_medio
+                preco_medio = :preco_medio,
+                valor_atual = :valor_atual
             WHERE id_ativo = :id_ativo
         ";
 
@@ -63,10 +74,37 @@ try {
         $stmtUpdate->execute([
             ':quantidade' => $novaQuantidade,
             ':preco_medio' => $novoPrecoMedio,
+            ':valor_atual' => $precoAt,
             ':id_ativo' => $ativoExistente['id_ativo']
         ]);
 
         $idAtivo = $ativoExistente['id_ativo'];
+
+
+        // Atualizar a valorização diária do ativo
+        $retornoPercentual = RetornoPercentual($novoPrecoMedio, $precoAt);
+
+        $sqlValorizacao = " SELECT valorizacao_diaria FROM valorizacao_ativos
+                                    WHERE id_usuario = :id_usuario AND id_ativo = :id_ativo AND data_val = CURDATE();";
+        $stmtVal = $pdo->prepare($sqlValorizacao);
+        $stmtVal->execute([
+            ':id_usuario' => $idUser,
+            ':id_ativo' => $idAtivo
+        ]);
+
+        $valDiaria = $stmtVal->fetchColumn();
+
+        $sqlValUpdate = " UPDATE valorizacao_ativos 
+                        SET valorizacao_diaria = :valorizacao_diaria
+                        WHERE id_usuario = :id_usuario AND id_ativo = :id_ativo AND data_val = CURDATE()";
+
+        $stmtValUpdate = $pdo->prepare($sqlValUpdate);
+        $stmtValUpdate->execute([
+            ':valorizacao_diaria' => $valDiaria + $retornoPercentual,
+            ':id_usuario' => $idUser,
+            ':id_ativo' => $idAtivo
+        ]);
+
     } else {
         $sql = "INSERT INTO ativos 
                 (id_usuario, codigo, nome, tipo, quantidade, preco_medio, valor_atual)
@@ -81,54 +119,76 @@ try {
             ':nome' => $nome,
             ':tipo' => $tipo,
             ':quantidade' => $quant,
-            ':preco_medio' => $precoM,
-            'valor_atual' => $precoM
+            ':valor_atual' => $precoAt,
+            ':preco_medio' => $precoAt 
         ]);
 
         $idAtivo = $pdo->lastInsertId();
 
-        }
-    
-        $sqlMov = "INSERT INTO movimentacoes
-                (id_usuario, id_ativo, tipo, quantidade, preco_unitario)
-                VALUES
-                (:id_usuario, :id_ativo, 'COMPRA', :quantidade, :preco)";
 
-        $stmtMov = $pdo->prepare($sqlMov);
+        // Criando a valorização diária do ativo
+        $sqlAtivoCriado = " SELECT preco_medio FROM ativos WHERE id_ativo = :id_ativo";
 
-        $stmtMov->execute([
+        $stmtAtivoCriado = $pdo->prepare($sqlAtivoCriado);
+        $stmtAtivoCriado->execute([
+            ':id_ativo' => $idAtivo
+        ]);
+
+        $precoMedio = $stmtAtivoCriado->fetchColumn();
+
+        $retornoPercentual = RetornoPercentual($precoMedio, $precoAt);
+
+        $sqlValInsert = " INSERT INTO valorizacao_ativos (id_usuario, id_ativo, valorizacao_diaria)
+                            VALUES (:id_usuario, :id_ativo, :valorizacao_diaria)";
+
+        $stmtValInsert = $pdo->prepare($sqlValInsert);
+        $stmtValInsert->execute([
             ':id_usuario' => $idUser,
             ':id_ativo' => $idAtivo,
-            ':quantidade' => $quant,
-            ':preco' => $precoM
+            ':valorizacao_diaria' => $retornoPercentual
         ]);
+    }
+    
+    $sqlMov = "INSERT INTO movimentacoes
+            (id_usuario, id_ativo, tipo, quantidade, preco_unitario)
+            VALUES
+            (:id_usuario, :id_ativo, 'COMPRA', :quantidade, :preco)";
 
-        $sqlPatrimonio = " SELECT COALESCE(SUM(quantidade * valor_atual), 0)
-                           FROM ativos
-                           WHERE id_usuario = :id_usuario";
+    $stmtMov = $pdo->prepare($sqlMov);
 
-        $stmtPat = $pdo->prepare($sqlPatrimonio);
+    $stmtMov->execute([
+        ':id_usuario' => $idUser,
+        ':id_ativo' => $idAtivo,
+        ':quantidade' => $quant,
+        ':preco' => $precoAt
+    ]);
 
-        $stmtPat->execute([
-            ':id_usuario' => $idUser
-        ]);
+    $sqlPatrimonio = " SELECT COALESCE(SUM(quantidade * valor_atual), 0)
+                        FROM ativos
+                        WHERE id_usuario = :id_usuario";
 
-        $valorTotal = $stmtPat->fetchColumn();
+    $stmtPat = $pdo->prepare($sqlPatrimonio);
 
-        $sqlHist = " INSERT INTO historico_carteira (id_usuario, valor_total)
-                     VALUES (:id_usuario, :valor_total)";
+    $stmtPat->execute([
+        ':id_usuario' => $idUser
+    ]);
 
-        $stmtHist = $pdo->prepare($sqlHist);
+    $valorTotal = $stmtPat->fetchColumn();
 
-        $stmtHist->execute([
-            ':id_usuario' => $idUser,
-            ':valor_total' => $valorTotal
-        ]);
+    $sqlHist = " INSERT INTO historico_carteira (id_usuario, valor_total)
+                    VALUES (:id_usuario, :valor_total)";
 
-        $pdo->commit();
+    $stmtHist = $pdo->prepare($sqlHist);
 
-        header("Location: ../pages/wallet.php");
-        exit;
+    $stmtHist->execute([
+        ':id_usuario' => $idUser,
+        ':valor_total' => $valorTotal
+    ]);
+
+    $pdo->commit();
+
+    header("Location: ../pages/wallet.php");
+    exit;
 
 } catch (Exception $e) {
 
