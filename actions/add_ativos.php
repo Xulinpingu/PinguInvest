@@ -1,8 +1,16 @@
 <?php
 
+session_start();
+
 require_once "../config/connDB.php";
 
-$idUser = 1;
+if (!isset($_SESSION['id_usuario'])) {
+    header("Location: ../pages/login.php");
+    exit();
+}
+else{
+    $idUser = $_SESSION['id_usuario'] ?? null;
+}
 
 $tipo = trim($_POST['opt-invest'] ?? '');
 $codigo = strtoupper($_POST['codigo-invest'] ?? '');
@@ -81,7 +89,7 @@ try {
         $idAtivo = $ativoExistente['id_ativo'];
 
 
-        // Atualizar a valorização diária do ativo
+        // Atualizar a valorização diária do ativo ou criar se for um novo dia
         $retornoPercentual = RetornoPercentual($novoPrecoMedio, $precoAt);
 
         $sqlValorizacao = " SELECT valorizacao_diaria FROM valorizacao_ativos
@@ -94,16 +102,31 @@ try {
 
         $valDiaria = $stmtVal->fetchColumn();
 
-        $sqlValUpdate = " UPDATE valorizacao_ativos 
+        if ($valDiaria){
+            $sqlValUpdate = " UPDATE valorizacao_ativos 
                         SET valorizacao_diaria = :valorizacao_diaria
                         WHERE id_usuario = :id_usuario AND id_ativo = :id_ativo AND data_val = CURDATE()";
 
-        $stmtValUpdate = $pdo->prepare($sqlValUpdate);
-        $stmtValUpdate->execute([
-            ':valorizacao_diaria' => $valDiaria + $retornoPercentual,
-            ':id_usuario' => $idUser,
-            ':id_ativo' => $idAtivo
-        ]);
+            $stmtValUpdate = $pdo->prepare($sqlValUpdate);
+            $stmtValUpdate->execute([
+                ':valorizacao_diaria' => $valDiaria + $retornoPercentual,
+                ':id_usuario' => $idUser,
+                ':id_ativo' => $idAtivo
+            ]);
+        }
+        else{
+            $retornoPercentual = RetornoPercentual($novoPrecoMedio, $precoAt);
+
+            $sqlValInsert = " INSERT INTO valorizacao_ativos (id_usuario, id_ativo, valorizacao_diaria)
+                                VALUES (:id_usuario, :id_ativo, :valorizacao_diaria)";
+
+            $stmtValInsert = $pdo->prepare($sqlValInsert);
+            $stmtValInsert->execute([
+                ':id_usuario' => $idUser,
+                ':id_ativo' => $idAtivo,
+                ':valorizacao_diaria' => $retornoPercentual
+            ]);
+        }
 
     } else {
         $sql = "INSERT INTO ativos 

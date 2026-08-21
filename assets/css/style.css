@@ -7,7 +7,7 @@
     --terciary-color-d: #7A3FD1;
     --text-d: #F5F3FA;
     --secondary-text-d: #B8B1C9;
-    --profit-d: #2ED47A;
+    --profit-d: #2ed47a;
     --loss-d: #FF5C7A;
     --border-d: #312A45;
 
@@ -28,6 +28,8 @@
     border: 0;
     margin: 0;
     padding: 0;
+
+    box-sizing: border-box;
 
     font-family: 'Rubik';
     color: var(--text-d);
@@ -237,9 +239,7 @@ footer div a:active {
     margin: 10px 0;
 }
 
-.wallet-profit {
-    background-color: #2ed4794d;
-    color: var(--profit-d);
+.wallet {
     display: inline-flex;
     align-items: center;
     gap: 4px;
@@ -248,6 +248,21 @@ footer div a:active {
     font-weight: 600;
     padding: 4px 10px;
     border-radius: 100px;
+}
+
+.wallet-profit {
+    background-color: #2ed4794d;
+    color: var(--profit-d);
+}
+
+.wallet-loss {
+    background-color: #ff6b6b4d;
+    color: var(--loss-d);
+}
+
+.wallet-neutral {
+    background-color: #363636;
+    color: var(--secondary-text-d);
 }
 
 .wallet-stats {
@@ -314,11 +329,7 @@ footer div a:active {
 
 /* ADD_BTN */
 
-#add-btn{
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 9998; 
+.func-btn{
     padding: 15px 17px 12px 17px;
     background-color: var(--terciary-color-d);
     color: #fff;
@@ -330,12 +341,48 @@ footer div a:active {
 }
 
 
-#add-btn:active{
+.func-btn:active{
     transform: scale(90%);
 }
 
-#add-popup{
-    position: fixed ;
+.fab-container{
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 9998;
+}
+
+#dots-btn{
+    position: relative;
+    z-index: 9999;
+}
+
+.func-anchored{
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+    opacity: 1;
+    visibility: visible;
+}
+
+.hidden-func{
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, 18px);
+    pointer-events: none;
+}
+
+.popup {
+    position: fixed;
     width: 100%;
     height: 100%;
     margin-top: 15%;
@@ -345,37 +392,41 @@ footer div a:active {
     transition: 0.7s ease;
 }
 
+/* =========================
+   ADD POPUP
+========================= */
+
 #add-popup form {
     padding: 30px 10px;
     height: 100%;
 }
 
-#add-popup form div{
+#add-popup form div {
     height: 30%;
 }
 
 #add-popup form .options-invest label {
-  font-size: 20px;
-  font-weight: bold;
-  margin: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px;
 }
 
 #add-popup form .options-invest .options-invest-btns {
-  display: grid;
-  grid-template-columns: 4fr 4fr 4fr;
-  padding: 10px;
-  row-gap: 10px;
-  column-gap: 10px;
+    display: grid;
+    grid-template-columns: 4fr 4fr 4fr;
+    padding: 10px;
+    row-gap: 10px;
+    column-gap: 10px;
 }
 
 #add-popup form .options-invest .options-invest-btns button {
-  background-color: var(--bg-page-d);
-  border: 2px solid var(--border-d);
-  padding: 10px;
-  font-size: 15px;
-  text-align: center;
-  height: 80px;
-  border-radius: 20px;
+    background-color: var(--bg-page-d);
+    border: 2px solid var(--border-d);
+    padding: 10px;
+    font-size: 15px;
+    text-align: center;
+    height: 80px;
+    border-radius: 20px;
 }
 
 #add-popup form .options-invest .options-invest-btns button p {
@@ -387,33 +438,34 @@ footer div a:active {
     background-color: var(--secondary-color-d);
 }
 
-#add-popup form .options-invest .options-invest-btns .selected-invest p{
+#add-popup form .options-invest .options-invest-btns .selected-invest p {
     color: var(--terciary-color-d);
 }
 
-#add-popup form .invest-inputs{
+#add-popup form .invest-inputs {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 
-#add-popup form .invest-inputs .invest-inputs-num{
+#add-popup form .invest-inputs .invest-inputs-num {
     display: flex;
     margin-top: 20px;
     width: 100%;
     justify-content: space-between;
 }
 
-#add-popup form .invest-inputs .invest-inputs-txt, #add-popup form .invest-inputs .invest-inputs-num div{
+#add-popup form .invest-inputs .invest-inputs-txt,
+#add-popup form .invest-inputs .invest-inputs-num div {
     display: flex;
     flex-direction: column;
 }
 
-#add-popup form .invest-inputs .invest-inputs-num div{
+#add-popup form .invest-inputs .invest-inputs-num div {
     width: 48%;
 }
 
-#add-popup form .invest-inputs div input  {
+#add-popup form .invest-inputs div input {
     background-color: var(--bg-page-d);
     border: 2px solid var(--border-d);
     color: var(--secondary-text-d);
@@ -423,12 +475,16 @@ footer div a:active {
     margin-top: 5px;
 }
 
+/* =========================
+   BOTÕES DOS POPUPS
+========================= */
+
 #add-popup form .invest-btns {
     display: flex;
     flex-direction: column;
 }
 
-#add-popup form .invest-btns button{
+#add-popup form .invest-btns button {
     height: auto;
     margin: 10px 0;
     border-radius: 10px;
@@ -437,20 +493,138 @@ footer div a:active {
     font-weight: bold;
 }
 
-#add-popup form .invest-btns .confirm-btn{
+/* Botão confirmar */
+.confirm-btn {
     background-color: var(--terciary-color-d);
 }
 
-#add-popup form .invest-btns .cancel-btn{
+/* Botão cancelar - compartilhado */
+.cancel-btn {
     background-color: var(--bg-page-d);
     border: 2px solid var(--border-d);
     color: var(--secondary-text-d);
+
+    height: auto;
+    margin: 10px 0;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 15px;
+    font-weight: bold;
+    width: 100%;
 }
 
-.overlay{
+/* =========================
+   SELL / EDIT POPUPS
+========================= */
+
+#sell-popup,
+#edit-popup {
+    display: flex;
+    flex-direction: column;
+    padding: 24px 16px 16px;
+    overflow-y: auto;
+}
+
+.popup-header h2 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.popup-subtitle {
+    color: var(--secondary-text-d);
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.popup-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    margin: 18px 0;
+    padding-right: 4px;
+}
+
+.popup-lista .ativo-card {
+    border-bottom: 1px solid var(--border-d);
+    padding-bottom: 14px;
+}
+
+.ativo-acao {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.ativo-acao input[type="number"] {
+    width: 74px;
+    background-color: var(--bg-page-d);
+    border: 2px solid var(--border-d);
+    color: var(--secondary-text-d);
+    font-size: 14px;
+    text-align: right;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.ativo-acao input[type="number"]::-webkit-outer-spin-button,
+.ativo-acao input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.ativo-acao-btn {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ativo-acao-btn i {
+    font-size: 18px;
+}
+
+.ativo-acao-btn.sell-action {
+    background-color: rgba(255, 92, 122, 0.12);
+    border: 2px solid var(--loss-d);
+}
+
+.ativo-acao-btn.sell-action i {
+    color: var(--loss-d);
+}
+
+.ativo-acao-btn.edit-action {
+    background-color: rgba(122, 63, 209, 0.15);
+    border: 2px solid var(--terciary-color-d);
+}
+
+.ativo-acao-btn.edit-action i {
+    color: var(--terciary-color-d);
+}
+
+/* Container dos botões de cancelar */
+.cancel-div {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    margin: 10px 0;
+}
+
+/* =========================
+   HIDDEN / OVERLAY
+========================= */
+
+.overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     z-index: 1000;
     transition: opacity 0.7s ease;
 }
@@ -460,10 +634,110 @@ footer div a:active {
     opacity: 0;
 }
 
-.overlay.hidden{
+.overlay.hidden {
     opacity: 0;
     pointer-events: none;
 }
+
+.confirm-overlay {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.6);
+
+    z-index: 20000;
+
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.confirm-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.confirm-popup {
+    width: min(90%, 400px);
+
+    background-color: var(--secondary-color-d);
+    border: 2px solid var(--border-d);
+    border-radius: 20px;
+
+    padding: 25px;
+
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.confirm-popup h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.confirm-popup p {
+    color: var(--secondary-text-d);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.confirm-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.confirm-buttons button {
+    flex: 1;
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.confirm-buttons .confirm-btn {
+    background-color: var(--terciary-color-d);
+}
+
+.confirm-buttons .cancel-btn {
+    margin: 0;
+}
+
+.confirm-details {
+    margin: 20px 0;
+    padding: 15px;
+
+    background-color: var(--bg-page-d);
+    border: 1px solid var(--border-d);
+    border-radius: 12px;
+}
+
+.confirm-details div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 8px 0;
+}
+
+.confirm-details div + div {
+    border-top: 1px solid var(--border-d);
+}
+
+.confirm-details span {
+    color: var(--secondary-text-d);
+    font-size: 14px;
+}
+
+.confirm-details strong {
+    font-size: 15px;
+}
+
 
 /* tooltip codigo */
 
@@ -642,4 +916,372 @@ footer div a:active {
 .outros{
     background: #3d3d4b;
     color: #d4d4d8;
+}
+
+
+/* Cadastro e Login */
+
+.auth-body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-color: #2d184d;
+    overflow-x: hidden;
+}
+
+#particles-js {
+    position: fixed;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+}
+
+.auth-wrapper {
+    position: relative;
+    z-index: 1;
+
+    min-height: 100vh;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 40px 16px;
+
+    /* deixa os cliques/hover atravessarem até o canvas das partículas */
+    pointer-events: none;
+}
+
+.auth-card {
+    position: relative;
+    overflow: hidden;
+
+    width: 100%;
+    max-width: 400px;
+
+    /* o card em si volta a responder a cliques normalmente */
+    pointer-events: auto;
+
+    background: linear-gradient(135deg, #2D1F52 0%, #1A1429 50%, #1E1A2B 100%);
+    border: 1px solid rgba(122, 63, 209, 0.3);
+    border-radius: 20px;
+
+    padding: 36px 30px;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.45),
+        0 0 30px rgba(122, 63, 209, 0.12);
+}
+
+.auth-card .card-circle {
+    width: 225px;
+    height: 225px;
+    top: -60px;
+    right: -60px;
+}
+
+.auth-header {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-bottom: 26px;
+}
+
+.auth-header img {
+    width: 60px;
+    margin-bottom: 12px;
+}
+
+.auth-header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.auth-header p {
+    color: var(--secondary-text-d);
+    font-size: 0.85rem;
+    margin-top: 6px;
+    text-align: center;
+}
+
+.auth-form {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.auth-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.auth-input-group label {
+    font-size: 0.8rem;
+    color: var(--secondary-text-d);
+}
+
+.auth-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.auth-input-wrap i {
+    position: absolute;
+    left: 14px;
+    color: var(--secondary-text-d);
+    font-size: 18px;
+    pointer-events: none;
+}
+
+.auth-input-wrap input {
+    width: 100%;
+    background-color: var(--bg-page-d);
+    border: 2px solid var(--border-d);
+    color: var(--text-d);
+    font-size: 14px;
+    border-radius: 12px;
+    padding: 13px 14px 13px 42px;
+
+    transition: border-color 0.2s ease;
+}
+
+.auth-input-wrap input::placeholder {
+    color: var(--secondary-text-d);
+}
+
+.auth-input-wrap input:focus {
+    border-color: var(--terciary-color-d);
+}
+
+.auth-input-wrap .toggle-pass {
+    position: absolute;
+    left: auto;
+    right: 14px;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.auth-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8rem;
+}
+
+.auth-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--secondary-text-d);
+}
+
+.auth-checkbox input {
+    accent-color: var(--terciary-color-d);
+    width: 14px;
+    height: 14px;
+}
+
+.auth-forgot {
+    color: var(--terciary-color-d);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-forgot:hover {
+    text-decoration: underline;
+}
+
+.auth-submit-btn {
+    position: relative;
+    overflow: hidden; 
+    z-index: 1;
+    
+    background-color: transparent;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+
+    padding: 14px;
+    border: 2px solid var(--border-d);
+    border-radius: 12px;
+
+    transition: transform 0.3s ease, color 0.3s ease; 
+}
+
+.auth-submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--terciary-color-d);
+    z-index: -1;
+    
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.7s ease;
+}
+
+.auth-submit-btn:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.auth-submit-btn:not(:hover)::before {
+    transform: scaleX(0);
+    transform-origin: right;
+}
+
+.auth-submit-btn:active {
+    transform: scale(0.98);
+}
+
+.auth-divider {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin: 24px 0 18px;
+
+    color: var(--secondary-text-d);
+    font-size: 0.75rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: var(--border-d);
+}
+
+.auth-socials {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    gap: 12px;
+}
+
+.auth-social-btn {
+    flex: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    background-color: var(--bg-page-d);
+    border: 2px solid var(--border-d);
+    color: var(--text-d);
+
+    font-size: 14px;
+    font-weight: 600;
+
+    padding: 12px;
+    border-radius: 12px;
+
+    text-decoration: none;
+
+    transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.auth-social-btn i {
+    font-size: 18px;
+}
+
+.auth-social-btn:hover {
+    border-color: var(--terciary-color-d);
+    transform: translateY(-1px);
+}
+
+.auth-social-btn.google-btn i {
+    color: #ea4335;
+}
+
+.auth-social-btn.apple-btn i {
+    color: var(--text-d);
+}
+
+.auth-footer {
+    position: relative;
+    z-index: 1;
+
+    text-align: center;
+    margin-top: 26px;
+
+    font-size: 0.85rem;
+    color: var(--secondary-text-d);
+}
+
+.auth-footer a {
+    color: var(--terciary-color-d);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+.auth-back-btn {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    z-index: 2;
+
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--bg-page-d);
+    border: 2px solid var(--border-d);
+    border-radius: 50%;
+
+    color: var(--text-d);
+    text-decoration: none;
+
+    transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.auth-back-btn:hover {
+    border-color: var(--terciary-color-d);
+    transform: translateX(-2px);
+}
+
+.danger{
+    background-color: #ff6b6b4d;
+    color: var(--loss-d);
+    text-align: center;
+    font-size: 15px;
+
+    width: 90%;
+    padding: 10px;
+    border-radius: 10px;
+
+    margin: 10px 5%;
+}
+
+@media (max-width: 420px) {
+    .auth-card {
+        padding: 30px 22px;
+    }
 }
