@@ -12,6 +12,8 @@ CREATE TABLE usuarios (
     email VARCHAR(100) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL,
 
+    foto VARCHAR(100),
+
     assinante BOOLEAN NOT NULL DEFAULT FALSE,
 
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -92,5 +94,27 @@ CREATE TABLE historico_carteira (
 
     FOREIGN KEY (id_usuario)
         REFERENCES usuarios(id_usuario)
+        ON DELETE CASCADE
+);
+
+-- =========================
+-- VLORIZAÇÃO DE ATIVOS
+-- ========================= 
+CREATE TABLE valorizacao_ativos (
+    id_valorizacao INT AUTO_INCREMENT PRIMARY KEY,
+
+    id_usuario INT NOT NULL,
+    id_ativo INT NOT NULL,
+
+    valorizacao_diaria DECIMAL(15,2) NOT NULL,
+
+    data_val TIMESTAMP DEFAULT CURRENT_DATE,
+
+    FOREIGN KEY (id_usuario)
+        REFERENCES usuarios(id_usuario)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (id_ativo)
+        REFERENCES ativos(id_ativo)
         ON DELETE CASCADE
 );
