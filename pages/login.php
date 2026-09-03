@@ -91,23 +91,29 @@ session_start();
             <div class="auth-divider">ou continue com</div>
 
             <div class="auth-socials">
-                <button type="button" id="google-signin-btn" class="auth-social-btn google-btn">
-                    <svg class="google-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                    </svg>
-                    Google
-                </button>
-                <!-- Botão real do Google, renderizado escondido. O botão estilizado acima
-                     dispara um clique nele para abrir o fluxo oficial do Google. -->
-                <div id="google-button" class="google-button-hidden"></div>
+                <div class="google-btn-wrapper">
 
-                <a href="#" class="auth-social-btn apple-btn">
-                    <i class="ph ph-apple-logo"></i>
-                    Apple
-                </a>
+                    <button type="button" class="auth-social-btn google-btn">
+                        <svg class="google-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+
+                        Google
+                    </button>
+
+                    <div id="google-button"></div>
+
+                </div>
+
+                <div class="apple-btn-wrapper">
+                    <a href="#" class="auth-social-btn apple-btn">
+                        <i class="ph ph-apple-logo"></i>
+                        Apple
+                    </a>
+                </div>
             </div>
 
             <div class="auth-footer">
@@ -129,7 +135,7 @@ session_start();
             google.accounts.id.initialize({
                 // Substitua pelo Client ID gerado no Google Cloud Console
                 // (Credenciais > ID do cliente OAuth 2.0 > tipo "Aplicativo da Web").
-                client_id: "a.apps.googleusercontent.com",
+                client_id: "694866377942-unjqo2667j20i9v343f3utrsok8an4i0.apps.googleusercontent.com",
                 callback: handleGoogleLogin
             });
 
@@ -143,16 +149,6 @@ session_start();
 
         window.addEventListener("load", iniciarGoogle);
 
-        // Nosso botão estilizado (igual ao da Apple) só serve de "gatilho":
-        // ao ser clicado, ele aciona o clique no botão real do Google.
-        document.getElementById("google-signin-btn").addEventListener("click", function () {
-            const realGoogleBtn = document.querySelector("#google-button div[role=button]");
-            if (realGoogleBtn) {
-                realGoogleBtn.click();
-            } else {
-                console.error("O botão do Google ainda não carregou. Tente novamente em instantes.");
-            }
-        });
 
         function handleGoogleLogin(response) {
             // response.credential é o JWT (ID token) do Google.
@@ -164,7 +160,7 @@ session_start();
             })
                 .then(res => res.text())
                 .then(() => {
-                    window.location.href = "wallet.php";
+                    window.location.href = "perfil.php";
                 })
                 .catch(err => console.error("Erro no login com Google:", err));
         }

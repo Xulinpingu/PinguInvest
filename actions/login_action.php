@@ -23,7 +23,7 @@ if ($usuario_senha && password_verify($password, $usuario_senha['senha'])) {
     $_SESSION['id_usuario'] = $usuario_senha['id_usuario'];
     $_SESSION['email'] = $email;
 
-    header("Location: ../pages/index.php");
+    header("Location: ../pages/perfil.php");
 } else {
     $_SESSION['aviso'] = "E-mail ou senha incorretos.";
     $_SESSION['aviso_tipo'] = "danger";

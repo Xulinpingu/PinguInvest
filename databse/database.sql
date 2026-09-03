@@ -8,6 +8,8 @@ USE PinguInvest_DB;
 CREATE TABLE usuarios (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
 
+    google_id VARCHAR(255) UNIQUE NULL,
+
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL,

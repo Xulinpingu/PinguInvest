@@ -167,7 +167,7 @@ foreach ($alocacao as $item) {
     <div class="hidden popup" id="add-popup">
         <form action="../actions/add_ativos.php" method="POST">
             <div class="options-invest">
-                <label for="opt-invest">Adiconar Ativo</label>
+                <label for="opt-invest">Adicionar Ativo</label>
                 <input type="hidden" name="opt-invest" id="opt-invest" value="ACAO">
 
                 <div class="options-invest-btns">
