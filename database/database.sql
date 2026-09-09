@@ -16,9 +16,75 @@ CREATE TABLE usuarios (
 
     foto VARCHAR(100),
 
-    assinante BOOLEAN NOT NULL DEFAULT FALSE,
-
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- =========================
+-- ASSINATURAS
+-- =========================
+CREATE TABLE assinaturas (
+    id_assinatura INT AUTO_INCREMENT PRIMARY KEY,
+
+    id_usuario INT NOT NULL,
+
+    status ENUM(
+        'ativa',
+        'cancelada',
+        'expirada',
+        'pendente'
+    ) NOT NULL DEFAULT 'pendente',
+
+    plano ENUM(
+        'mensal',
+        'trimestral',
+        'anual'
+    ) NOT NULL,
+
+    data_inicio TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    data_fim DATETIME,
+
+    FOREIGN KEY (id_usuario)
+        REFERENCES usuarios(id_usuario)
+        ON DELETE CASCADE
+);
+
+-- =========================
+-- AULAS
+-- =========================
+CREATE TABLE aulas (
+    id_aula  INT AUTO_INCREMENT PRIMARY KEY,
+
+    nome VARCHAR(100) NOT NULL,
+    link VARCHAR(255) NOT NULL,
+
+    gratis BOOLEAN NOT NULL
+);
+
+-- =========================
+-- SEÇÕES
+-- =========================
+CREATE TABLE secoes (
+    id_secao INT AUTO_INCREMENT PRIMARY KEY,
+    
+    nome VARCHAR(100) NOT NULL
+);
+
+-- =========================
+-- SEÇÕES
+-- =========================
+CREATE TABLE aula_secao (
+    id_aula INT NOT NULL,
+    id_secao INT NOT NULL,
+
+    PRIMARY KEY (id_aula, id_secao),
+
+    FOREIGN KEY (id_aula)
+        REFERENCES aulas(id_aula)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (id_secao)
+        REFERENCES secoes(id_secao)
+        ON DELETE CASCADE
 );
 
 -- =========================

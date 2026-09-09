@@ -49,7 +49,7 @@ $logado = isset($_SESSION['id_usuario']);
                         <a href="perfil.php" class="hero-btn-secondary">Meu perfil</a>
                     <?php else: ?>
                         <a href="cadastro.php" style="text-decoration: none;">
-                            <button class="cssbuttons-io-button"">
+                            <button class="cssbuttons-io-button">
                                 Criar Conta
                                 <div class="icon">
                                     <i class="ph ph-arrow-left"></i>
@@ -132,15 +132,15 @@ $logado = isset($_SESSION['id_usuario']);
 
             <div class="team-grid">
                 <div class="team-card">
-                    <div class="team-avatar"><i class="ph ph-user-circle"></i></div>
+                    <img src="https://avatars.githubusercontent.com/u/126606168?v=4" alt="" class="team-avatar">
                     <strong>Bruno Lourenço de Lima</strong>
                 </div>
                 <div class="team-card">
-                    <div class="team-avatar"><i class="ph ph-user-circle"></i></div>
+                    <img src="https://avatars.githubusercontent.com/u/223850003?v=4" alt="" class="team-avatar">
                     <strong>Henrique Silvestre Martin</strong>
                 </div>
                 <div class="team-card">
-                    <div class="team-avatar"><i class="ph ph-user-circle"></i></div>
+                    <img src="https://avatars.githubusercontent.com/u/172209260?v=4" alt="" class="team-avatar">
                     <strong>Isaac Faleiros Quevedo</strong>
                 </div>
             </div>
@@ -231,6 +231,10 @@ $logado = isset($_SESSION['id_usuario']);
     font-weight: 700;
 }
 
+
+.navbar{
+    padding: 0;
+}
 
 </style>
 </html>

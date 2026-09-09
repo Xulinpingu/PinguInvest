@@ -94,7 +94,7 @@ $dataMembro = $dataCriacao->format('d/m/Y');
                 <img
                     src="<?= !empty($usuario['foto'])
                         ? htmlspecialchars($usuario['foto'])
-                        : '../assets/images/profile/default.png' ?>"
+                        : '../assets/uploads/icon_perfil/placeholder.png' ?>"
                     alt="Foto de perfil"
                 >
 
@@ -163,9 +163,12 @@ $dataMembro = $dataCriacao->format('d/m/Y');
 
             <div class="perfil-user-info">
 
-                <h1>
-                    <?= htmlspecialchars($usuario['nome']) ?>
-                </h1>
+                <form class="edit-name-form" style="display: flex; align-items: center; gap: 0.5rem;" action="../actions/change_name.php">
+                    <h1 class="perfil-username">
+                        <?= htmlspecialchars($usuario['nome']) ?> 
+                    </h1>
+                    <i class="ph ph-pencil-simple edit-btn" style="width: 30px; height: 30px;" onclick="EditName()"></i>
+                </form>
 
                 <p>
                     <?= htmlspecialchars($usuario['email']) ?>
@@ -189,7 +192,7 @@ $dataMembro = $dataCriacao->format('d/m/Y');
                     </span>
 
                     <strong>
-                        Está com a gente há <?= $tempoMembro ?>
+                         <?= $tempoMembro == "Hoje" ? "Criado hoje" : "Está com a gente há " . $tempoMembro ?>
                     </strong>
 
                 </div>
@@ -402,6 +405,30 @@ document.addEventListener("click", function (event) {
 
 });
 
+const h1_name = document.querySelector(".perfil-username");
+const input_name = document.createElement("input");
+const edit_btn = document.querySelector(".edit-btn");
+
+input_name.type = "text";
+input_name.name = "nome";
+
+input_name.style.color = "black";
+input_name.style.height = h1_name.offsetHeight + "px";
+input_name.style.fontSize = getComputedStyle(h1_name).fontSize;
+input_name.style.padding = "5px";
+inpu_name.style.borderRadius = "5px";
+
+function EditName() {
+    h1_name.replaceWith(input_name);
+    input_name.focus();
+
+    edit_btn.classList.remove("ph-pencil-simple");
+    edit_btn.classList.add("ph-check");
+
+    edit_btn.onclick = function () {
+        document.querySelector(".edit-name-form").submit();
+    };
+}
 
 function syncThemeSwitch() {
 
