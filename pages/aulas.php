@@ -4,6 +4,28 @@ session_start();
 
 require_once '../config/connDB.php';
 
+$assinante = false;
+
+$sql = "SELECT * FROM assinaturas
+        WHERE id_usuario = :id_usuario
+        ORDER BY data_inicio
+        LIMIT 1";
+$stmt = $pdo->prepare($sql);
+
+$stmt->execute([
+    ':id_usuario' => $_SESSION['id_usuario']
+]);
+
+$assinatura = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($assinatura != null){
+    if ($assinatura["status"] == "ativa"){
+        $assinante = true;
+    }
+}
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -41,39 +63,44 @@ require_once '../config/connDB.php';
         </div>
 
     </section>
+    
+    <?php if (!$assinante): ?>
 
-    <section class="aulas-pagas locked">
-
-        <div class="assinar">
-            
+        <div class="locked">
+            <i class="ph ph-lock-key"></i>
+            <button class="hero-btn-primary" onclick="window.location.href = 'assinatura.php'">Fazer sua assinatura!</button>
         </div>
 
+    <?php endif; ?>
+    <section class="aulas-pagas">
         <div class="title-aulas">
             <h1>Aulas pagas</h1>
             <p>Aprenda sobre investimentos e educação financeira com nossas aulas pagas.</p>
         </div>
+        
+        <div class="<?= !$assinante ? "blur-locked" : ""; ?>">
+            <div>          
+                <h2>Seção 1</h2>
 
-        <div>          
-            <h2>Seção 1</h2>
-
-            <div class="aulas-scroll">
-                <iframe src="https://www.youtube.com/embed/videoseries?list=PL8dPuuaLjXtOfse2ncvffeelTrqv9k8lb" title="Aulas pagas de investimentos e educação financeira" frameborder="0" allowfullscreen></iframe>
+                <div class="aulas-scroll">
+                    <iframe src="https://www.youtube.com/embed/RtecnEnuX_I" title="Aulas pagas de investimentos e educação financeira" frameborder="0" allowfullscreen style="<?= !$assinante ? "pointer-events: none;" : ""; ?>"></iframe>
+                </div>
             </div>
-        </div>
 
-        <div>
-            <h2>Seção 2</h2>
+            <div>
+                <h2>Seção 2</h2>
 
-            <div class="aulas-scroll">
-                <iframe src="https://www.youtube.com/embed/videoseries?list=PL8dPuuaLjXtOfse2ncvffeelTrqv9k8lb" title="Aulas pagas de investimentos e educação financeira" frameborder="0" allowfullscreen></iframe>
+                <div class="aulas-scroll">
+                    <iframe src="https://www.youtube.com/embed/videoseries?list=PL8dPuuaLjXtOfse2ncvffeelTrqv9k8lb" title="Aulas pagas de investimentos e educação financeira" frameborder="0" allowfullscreen style="<?= !$assinante ? "pointer-events: none;" : ""; ?>"></iframe>
+                </div>
             </div>
-        </div>
 
-        <div>
-            <h2>Seção 3</h2>
+            <div>
+                <h2>Seção 3</h2>
 
-            <div class="aulas-scroll">
-                <iframe src="https://www.youtube.com/embed/videoseries?list=PL8dPuuaLjXtOfse2ncvffeelTrqv9k8lb" title="Aulas pagas de investimentos e educação financeira" frameborder="0" allowfullscreen></iframe>
+                <div class="aulas-scroll">
+                    <iframe src="https://www.youtube.com/embed/videoseries?list=PL8dPuuaLjXtOfse2ncvffeelTrqv9k8lb" title="Aulas pagas de investimentos e educação financeira" frameborder="0" allowfullscreenv style="<?= !$assinante ? "pointer-events: none;" : ""; ?>"></iframe>
+                </div>
             </div>
         </div>
         

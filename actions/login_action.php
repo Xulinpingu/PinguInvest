@@ -7,13 +7,13 @@ session_start();
 $email = $_POST['email'] ?? '';
 $password = $_POST['senha'] ?? '';
 
-$sql = " SELECT id_usuario,senha FROM usuarios
-    WHERE email = :email";
+$sql = " SELECT id_usuario, senha FROM usuarios
+        WHERE email = :email";
 
 $stmt = $pdo->prepare($sql);
 
 $stmt->execute([
-    ':email' => $email,
+    ':email' => $email
 ]);
 
 $usuario_senha = $stmt->fetch(PDO::FETCH_ASSOC);

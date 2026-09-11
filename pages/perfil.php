@@ -163,7 +163,7 @@ $dataMembro = $dataCriacao->format('d/m/Y');
 
             <div class="perfil-user-info">
 
-                <form class="edit-name-form" style="display: flex; align-items: center; gap: 0.5rem;" action="../actions/change_name.php">
+                <form class="edit-name-form" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;" action="../actions/change_name.php">
                     <h1 class="perfil-username">
                         <?= htmlspecialchars($usuario['nome']) ?> 
                     </h1>
