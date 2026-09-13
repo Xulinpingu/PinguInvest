@@ -3,31 +3,7 @@
 session_start();
 
 require_once '../config/connDB.php';
-
-$assinante = false;
-$admin = false;
-
-if ($_SESSION['email'] == "xulinpingu.equipe@gmail.com") {
-    $admin = true;
-}
-
-$sql = "SELECT * FROM assinaturas
-        WHERE id_usuario = :id_usuario
-        ORDER BY data_inicio
-        LIMIT 1";
-$stmt = $pdo->prepare($sql);
-
-$stmt->execute([
-    ':id_usuario' => $_SESSION['id_usuario']
-]);
-
-$assinatura = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if ($assinatura != null){
-    if ($assinatura["status"] == "ativa") {
-        $assinante = true;
-    }
-}
+require_once '../actions/check_assinatura.php';
 
 $sql = "SELECT * FROM aulas
         WHERE gratis = :gratis";

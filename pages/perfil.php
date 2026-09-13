@@ -3,6 +3,7 @@
 session_start();
 
 require_once "../config/connDB.php";
+require_once '../actions/check_assinatura.php';
 
 if (!isset($_SESSION['id_usuario'])) {
     header("Location: ../pages/login.php");
@@ -223,31 +224,71 @@ $dataMembro = $dataCriacao->format('d/m/Y');
 
 
             <div class="subscription-placeholder">
+                <?php if(!$assinante & !$admin) : ?>
 
-                <div class="subscription-placeholder-icon">
-                    <i class="ph ph-lock-key"></i>
-                </div>
+                    <div class="subscription-placeholder-info">
+
+                        <strong>
+                            Conteúdo exclusivo
+                        </strong>
+
+                        <span>
+                            Assine um de nossos planos aulas pagas para uma melhor experiência com nosso site
+                        </span>
+
+                    </div>
+
+                    <a href="assinatura.php">
+                        <button
+                            type="button"
+                            class="hero-btn-primary"
+                            style="padding: 10px 15px; margin: 10px;"
+                        >
+                            Assinar já
+                        </button>
+                    </a>
+
+                <?php endif; ?>
 
                 <div class="subscription-placeholder-info">
+                    <?php 
+                    
+                        if(!$assinante & !$admin){
+                            echo "<span> Acessar aulas disponíveis </span>";
+                        } 
+                        else {
+                            echo "<strong> Acessar aulas de investimentos </strong>";
+                        }
 
-                    <strong>
-                        Conteúdo exclusivo
-                    </strong>
-
-                    <span>
-                        Em breve você poderá assinar e ter
-                        acesso às nossas aulas de investimento.
-                    </span>
-
+                    ?>
                 </div>
 
-                <button
-                    type="button"
-                    class="subscription-placeholder-btn"
-                    disabled
-                >
-                    Em breve
-                </button>
+                <a href="aulas.php">
+                    <button
+                        type="button"
+                        class="<?= !$assinante & !$admin ? "hero-btn-secondary" : "hero-btn-primary" ?>"
+                        style="padding: 10px 15px; margin: 10px;"
+                    >
+                        Acessar
+                    </button>
+                </a>
+
+                <?php if($assinante) : ?>
+                    <div class="subscription-placeholder-info">
+                        <span>Ou</span>
+                    </div>
+                    <form action="../actions/cancel_assinatura.php">
+                        
+                        <button
+                            type="submit"
+                            class="hero-btn-secondary"
+                            style="padding: 10px 15px; margin: 10px;"
+                        >
+                            Cancelar assinatura
+                        </button>
+                    </form>
+
+                <?php endif; ?>
 
             </div>
 
