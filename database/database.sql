@@ -14,7 +14,7 @@ CREATE TABLE usuarios (
     email VARCHAR(100) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL,
 
-    foto VARCHAR(100),
+    foto VARCHAR(255),
 
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -70,7 +70,7 @@ CREATE TABLE secoes (
 );
 
 -- =========================
--- SEÇÕES
+-- RELAÇÃO AULA-SEÇÃO
 -- =========================
 CREATE TABLE aula_secao (
     id_aula INT NOT NULL,

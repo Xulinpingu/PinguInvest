@@ -90,7 +90,6 @@ $dataMembro = $dataCriacao->format('d/m/Y');
         <div class="perfil-header">
 
             <div class="perfil-avatar">
-
                 <img
                     src="<?= !empty($usuario['foto'])
                         ? htmlspecialchars($usuario['foto'])
@@ -412,11 +411,13 @@ const edit_btn = document.querySelector(".edit-btn");
 input_name.type = "text";
 input_name.name = "nome";
 
-input_name.style.color = "black";
+input_name.style.color = "var(--color-text)";
 input_name.style.height = h1_name.offsetHeight + "px";
 input_name.style.fontSize = getComputedStyle(h1_name).fontSize;
-input_name.style.padding = "5px";
-inpu_name.style.borderRadius = "5px";
+input_name.style.padding = "15px 5px";
+input_name.style.borderRadius = "5px";
+input_name.style.border = "1px solid var(--border)";
+input_name.style.backgroundColor = "var(--bg-page)";
 
 function EditName() {
     h1_name.replaceWith(input_name);

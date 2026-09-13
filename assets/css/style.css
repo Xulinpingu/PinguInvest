@@ -2687,6 +2687,7 @@ footer div a:active {
 .aulas-scroll iframe{
     display: inline;
     margin: 10px;
+    margin-bottom: 40px;
 }
 
 .blur-locked{
@@ -2707,6 +2708,108 @@ footer div a:active {
     top: anchor(--aulas-pagas center);
 
     z-index: 1000;
+}
+
+.add-aula{
+    width: 300px;
+    height: 150px;
+    margin: 10px;
+    padding: 0 100px;
+    margin-top: 40px;
+
+    font-size: 100px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(230, 230, 230, 0.4);
+
+    transition: 0.2s ease;
+}
+
+.add-aula:hover{
+    background-color: rgba(230, 230, 230, 0.2);
+}
+
+.add-aula p{
+    font-size: 16px;
+    width: 300px;
+}
+
+.aula form{
+    display: inline;
+}
+
+.remove-aula{
+    position: sticky;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: red;
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+
+    top: 25px;
+}
+
+.checkbox-personalizado input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkbox-personalizado {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    font-size: 24px;
+    user-select: none;
+}
+
+.checkmark {
+    position: relative;
+    height: 25px;
+    width: 25px;
+    background-color: var(--bg-page);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-right: 10px;
+    transition: background-color 0.2s;
+}
+
+.checkbox-personalizado:hover input ~ .checkmark {
+    background-color: var(--bg-page);
+}
+
+.checkbox-personalizado input:checked ~ .checkmark {
+    background-color: var(--terciary-color);
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-personalizado input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox-personalizado .checkmark:after {
+    left: 8px;
+    top: 4px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
 }
 
 /* --- Breakpoints (mobile-first: tablet / desktop) --- */
