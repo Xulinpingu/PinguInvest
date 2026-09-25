@@ -2,7 +2,7 @@
 date_default_timezone_set('America/Sao_Paulo');
 session_start();
 
-require_once "../actions/check_logado.php";
+require_once __DIR__ . "/../actions/check_logado.php";
 require_once "../config/hgbrasil.php";
 
 $mercado = hgbrasil_mercado();

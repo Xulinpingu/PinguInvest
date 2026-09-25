@@ -19,6 +19,7 @@
     15. Lista de ativos
     16. Autenticação (login/cadastro)
     17. Perfil e alternância de tema
+    18. @media das telas maiores
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
@@ -2930,6 +2931,7 @@ footer div a:active {
 }
 
 /* --- Breakpoints (mobile-first: tablet / desktop) --- */
+/* 18 */
 
 @media (min-width: 700px) {
     .hero-content {

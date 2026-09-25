@@ -2,7 +2,7 @@
 
 session_start();
 
-require_once "../actions/check_logado.php";
+require_once __DIR__ . "/../actions/check_logado.php";
 
 ?>
 
@@ -154,7 +154,7 @@ require_once "../actions/check_logado.php";
             <a href="cadastro.php" style="text-decoration: none;">
                 <button class="cssbuttons-io-button">
                     Comece hoje!
-                    <div class="icon">
+                    <div class="icon" style="transition: 0.5s ease;">
                         <i class="ph ph-arrow-left"></i>
                     </div>
                 </button>

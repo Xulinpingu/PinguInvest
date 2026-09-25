@@ -4,6 +4,15 @@ session_start();
 
 require_once '../config/connDB.php';
 require_once '../actions/check_assinatura.php';
+require_once __DIR__ . "/../actions/check_logado.php";
+
+if (!$logado) {
+    header("Location: ../pages/login.php");
+    exit();
+}
+else{
+    $idUser = $_SESSION['id_usuario'];
+}
 
 $sql = "SELECT * FROM aulas
         WHERE gratis = :gratis";
@@ -78,7 +87,7 @@ $stmt_aula = $pdo->prepare($sql);
 
                 <button class="add-aula">
                     <i class="ph ph-plus"></i>
-                    <p style="">Adicionar aula</p>
+                    <p>Adicionar aula</p>
                 </button>
 
                 <form class="confirm-overlay hidden" method="POST" action="../actions/add_aula.php">
@@ -183,7 +192,7 @@ $stmt_aula = $pdo->prepare($sql);
 
                         <button class="add-aula">
                             <i class="ph ph-plus"></i>
-                            <p style="">Adicionar aula</p>
+                            <p>Adicionar aula</p>
                         </button>
 
                         <form class="confirm-overlay hidden" method="POST" action="../actions/add_aula.php">
@@ -262,7 +271,7 @@ $stmt_aula = $pdo->prepare($sql);
 
                             <button class="add-aula">
                                 <i class="ph ph-plus"></i>
-                                <p style="">Adicionar aula</p>                             
+                                <p>Adicionar aula</p>                             
                             </button>
 
                             <form class="confirm-overlay hidden" method="POST" action="../actions/add_aulasecao.php">

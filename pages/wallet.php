@@ -3,7 +3,7 @@
 session_start();
 
 require_once "../config/connDB.php";
-require_once "../actions/check_logado.php";
+require_once __DIR__ . "/../actions/check_logado.php";
 
 $soma_percentual = 0;
 $investido = 0;
