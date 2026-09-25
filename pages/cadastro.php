@@ -126,13 +126,6 @@ session_start();
                     <div id="google-button"></div>
 
                 </div>
-
-                <div class="apple-btn-wrapper">
-                    <a href="#" class="auth-social-btn apple-btn">
-                        <i class="ph ph-apple-logo"></i>
-                        Apple
-                    </a>
-                </div>
             </div>
 
             <div class="auth-footer">

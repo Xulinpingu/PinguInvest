@@ -4,8 +4,9 @@ session_start();
 
 require_once "../config/connDB.php";
 require_once '../actions/check_assinatura.php';
+require_once "../actions/check_logado.php";
 
-if (!isset($_SESSION['id_usuario'])) {
+if (!$logado) {
     header("Location: ../pages/login.php");
     exit();
 }
@@ -360,7 +361,7 @@ $dataMembro = $dataCriacao->format('d/m/Y');
             <button
                 class="perfil-action logout"
                 type="button"
-                onclick="window.location.href='../actions/logout.php'"
+                onclick="PinguTheme.set('dark'); window.location.href='../actions/logout.php'"
             >
 
                 <span class="action-icon">

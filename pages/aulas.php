@@ -129,18 +129,20 @@ $stmt_aula = $pdo->prepare($sql);
         </div>
 
     </section>
-    
-    <?php if (!$assinante && !$admin): ?>
 
-        <div class="locked">
-            <i class="ph ph-lock-key"></i>
-            <button class="hero-btn-primary" onclick="window.location.href = 'assinatura.php'">Fazer sua assinatura!</button>
-        </div>
-
-    <?php endif; ?>
     <section class="aulas-pagas">
+
+        <?php if (!$assinante && !$admin): ?>
+
+            <div class="locked">
+                <i class="ph ph-lock-key"></i>
+                <button class="hero-btn-primary" onclick="window.location.href = 'assinatura.php'">Fazer sua assinatura!</button>
+            </div>
+
+        <?php endif; ?>
+
         <div class="title-aulas">
-            <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="display: flex; align-items: center; gap: 10px; justify-content: center;">
                 <h1>Aulas pagas</h1>
 
                 <?php if ($admin): ?>

@@ -13,6 +13,8 @@ CREATE TABLE usuarios (
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL,
+    remember_token VARCHAR(64) NULL,
+    reset_token VARCHAR(64) NULL,
 
     foto VARCHAR(255),
 

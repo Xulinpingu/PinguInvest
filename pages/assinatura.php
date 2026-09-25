@@ -3,8 +3,9 @@
 session_start();
 
 require_once '../config/connDB.php';
+require_once "../actions/check_logado.php";
 
-if (!isset($_SESSION['id_usuario'])) {
+if (!$logado) {
     header("Location: ../pages/login.php");
     exit();
 }
@@ -34,37 +35,37 @@ else{
 <body>
     <?php require_once "../includes/header.php" ?>
 
-    <form class="feature-grid" action="../actions/assinar.php" method="POST">
+    <div class="title-aulas" style="margin-top: 28px;">
+        <h1>Nossos planos</h1>
+        <p>Escolha o plano ideal para acessar todo o conteúdo pago do PinguInvest.</p>
+    </div>
 
-        <div class="feature-card">
+    <form class="feature-grid plans-grid" action="../actions/assinar.php" method="POST" style="max-width: 1000px; margin: 0 auto 40px; padding: 0 20px;">
+
+        <div class="feature-card plan-card">
             <h2>MENSAL</h2>
             <p>Nosso menor plano, com duração de apenas 1 mês e menor custo-benefício de todos.</p>
 
-            <br>
-
-            <p style="font-size: 50px; margin-bottom: 5px;">R$00,00</p>
+            <p class="plan-price">R$00,00<span>/mês</span></p>
             <label class="hero-btn-primary" for="mes">Fazer plano</label>
             <input type="radio" name="mes" id="mes" class="opcao" style="display: none;">
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card plan-card plan-popular">
+            <span class="plan-badge">Mais popular</span>
             <h2>TRIMESTRAL</h2>
-            <p>Nosso plano médio, com duração de 3 meses e menor custo-benefício em comparação ao anual.</p>
+            <p>Nosso plano médio, com duração de 3 meses e melhor custo-benefício em comparação ao mensal.</p>
 
-            <br>
-
-            <p style="font-size: 50px; margin-bottom: 5px;">R$00,00</p>
+            <p class="plan-price">R$00,00<span>/3 meses</span></p>
             <label class="hero-btn-primary" for="tri">Fazer plano</label>
             <input type="radio" name="tri" id="tri" class="opcao" style="display: none;">
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card plan-card">
             <h2>ANUAL</h2>
-            <p>Nosso plano anual e maior, com duração de 1 ano completo e de maior custo-benfício.</p>
+            <p>Nosso plano anual e maior, com duração de 1 ano completo e de maior custo-benefício.</p>
 
-            <br>
-
-            <p style="font-size: 50px; margin-bottom: 5px;">R$00,00</p>
+            <p class="plan-price">R$00,00<span>/ano</span></p>
             <label class="hero-btn-primary" for="ano">Fazer plano</label>
             <input type="radio" name="ano" id="ano" class="opcao" style="display: none;">
         </div>

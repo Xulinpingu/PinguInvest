@@ -82,7 +82,7 @@ session_start();
                         <input type="checkbox" name="lembrar">
                         Lembrar-me
                     </label>
-                    <a class="auth-forgot" href="#">Esqueceu a senha?</a>
+                    <a class="auth-forgot" href="checkEmail_redefinirSenha.php">Esqueceu a senha?</a>
                 </div>
 
                 <button type="submit" class="auth-submit-btn">Entrar</button>
@@ -106,13 +106,6 @@ session_start();
 
                     <div id="google-button"></div>
 
-                </div>
-
-                <div class="apple-btn-wrapper">
-                    <a href="#" class="auth-social-btn apple-btn">
-                        <i class="ph ph-apple-logo"></i>
-                        Apple
-                    </a>
                 </div>
             </div>
 

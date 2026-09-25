@@ -3,12 +3,13 @@
 session_start();
 
 require_once "../config/connDB.php";
+require_once "../actions/check_logado.php";
 
 $soma_percentual = 0;
 $investido = 0;
 $soma_valHoje = 0;
 
-if (!isset($_SESSION['id_usuario'])) {
+if (!$logado) {
     header("Location: ../pages/login.php");
     exit();
 }
@@ -166,68 +167,71 @@ foreach ($alocacao as $item) {
     <div class="overlay hidden"></div>
     <div class="hidden popup" id="add-popup">
         <form action="../actions/add_ativos.php" method="POST">
-            <div class="options-invest">
-                <label for="opt-invest">Adicionar Ativo</label>
-                <input type="hidden" name="opt-invest" id="opt-invest" value="ACAO">
+            
+            <div class="row-pc">
+                <div class="options-invest">
+                    <label for="opt-invest">Adicionar Ativo</label>
+                    <input type="hidden" name="opt-invest" id="opt-invest" value="ACAO">
 
-                <div class="options-invest-btns">
-                    <button type="button" class="selected-invest" onclick="selectInvestType('ACAO', this)">
-                        <i></i>
-                        <p>Ações</p>
-                    </button>
+                    <div class="options-invest-btns">
+                        <button type="button" class="selected-invest" onclick="selectInvestType('ACAO', this)">
+                            <i></i>
+                            <p>Ações</p>
+                        </button>
 
-                    <button type="button" class="" onclick="selectInvestType('FII', this)">
-                        <i></i>
-                        <p>FII</p>
-                    </button>
+                        <button type="button" class="" onclick="selectInvestType('FII', this)">
+                            <i></i>
+                            <p>FII</p>
+                        </button>
 
-                    <button type="button" class="" onclick="selectInvestType('RENDA_FIXA', this)">
-                        <i></i>
-                        <p>Renda Fixa</p>
-                    </button>
+                        <button type="button" class="" onclick="selectInvestType('RENDA_FIXA', this)">
+                            <i></i>
+                            <p>Renda Fixa</p>
+                        </button>
 
-                    <button type="button" class="" onclick="selectInvestType('ETF', this)">
-                        <i></i>
-                        <p>ETF</p>
-                    </button>
+                        <button type="button" class="" onclick="selectInvestType('ETF', this)">
+                            <i></i>
+                            <p>ETF</p>
+                        </button>
 
-                    <button type="button" class="" onclick="selectInvestType('CRIPTO', this)">
-                        <i></i>
-                        <p>Cripto</p>
-                    </button>
+                        <button type="button" class="" onclick="selectInvestType('CRIPTO', this)">
+                            <i></i>
+                            <p>Cripto</p>
+                        </button>
 
-                    <button type="button" class="" onclick="selectInvestType('OUTROS', this)">
-                        <i></i>
-                        <p>Outros</p>
-                    </button>
-                </div>
-                
-            </div>
-
-            <div class="invest-inputs">  
-                <div class="invest-inputs-txt">
-                    <div class="lable-row">
-                        <label for="codigo-invest">CÓDIGO</label>
-                        <button type="button" class="tooltip-btn" onclick="toggleTooltip(this)"><i class="ph ph-question"></i></button>
-                        <span class="tooltip-text">Obrigatório para Ações, FIIs, ETFs e Criptos. Para Renda Fixa e Outros o código é gerado automaticamente (mas pode ser escolido por você).</span>
+                        <button type="button" class="" onclick="selectInvestType('OUTROS', this)">
+                            <i></i>
+                            <p>Outros</p>
+                        </button>
                     </div>
-                    <input type="text" id="codigo-invest" name="codigo-invest" placeholder="EX: PETR4, BTC, HGLG11">
+                    
                 </div>
 
-                <div class="invest-inputs-txt">
-                    <label for="nome-invest">NOME</label>
-                    <input type="text" id="nome-invest" name="nome-invest" placeholder="EX: CDB Itau, SpaceX" required>
-                </div>
-
-                <div class="invest-inputs-num">
-                    <div>
-                        <label for="preco-invest">PREÇO (R$)</label>
-                        <input type="number"step="0.01" min="0" id="preco-invest" name="preco-invest" placeholder="R$ 0,00" required>
+                <div class="invest-inputs">  
+                    <div class="invest-inputs-txt">
+                        <div class="lable-row">
+                            <label for="codigo-invest">CÓDIGO</label>
+                            <button type="button" class="tooltip-btn" onclick="toggleTooltip(this)"><i class="ph ph-question"></i></button>
+                            <span class="tooltip-text">Obrigatório para Ações, FIIs, ETFs e Criptos. Para Renda Fixa e Outros o código é gerado automaticamente (mas pode ser escolido por você).</span>
+                        </div>
+                        <input type="text" id="codigo-invest" name="codigo-invest" placeholder="EX: PETR4, BTC, HGLG11">
                     </div>
 
-                    <div>
-                        <label for="quantidade-invest">QUANTIDADE</label>
-                        <input type="number" step="0.01" min="0" id="quantidade-invest" name="quantidade-invest" placeholder="0" required>
+                    <div class="invest-inputs-txt">
+                        <label for="nome-invest">NOME</label>
+                        <input type="text" id="nome-invest" name="nome-invest" placeholder="EX: CDB Itau, SpaceX" required>
+                    </div>
+
+                    <div class="invest-inputs-num">
+                        <div>
+                            <label for="preco-invest">PREÇO (R$)</label>
+                            <input type="number"step="0.01" min="0" id="preco-invest" name="preco-invest" placeholder="R$ 0,00" required>
+                        </div>
+
+                        <div>
+                            <label for="quantidade-invest">QUANTIDADE</label>
+                            <input type="number" step="0.01" min="0" id="quantidade-invest" name="quantidade-invest" placeholder="0" required>
+                        </div>
                     </div>
                 </div>
             </div>

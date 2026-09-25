@@ -125,3 +125,45 @@ Projeto desenvolvido para fins acadêmicos no curso de Análise e Desenvolviment
 ## 📈 Status
 
 🚧 Em desenvolvimento.
+
+---
+
+## 📊 Integração de Mercado — HG Brasil + brapi.dev
+
+A página `pages/mercado.php` usa duas fontes no backend PHP. Nenhuma chave é enviada ao navegador.
+
+### HG Brasil
+
+Responsável por índices, moedas, Bitcoin, CDI e Selic. O backend usa **uma única chamada** ao endpoint `/finance` e mantém o resultado em cache por 30 minutos.
+
+Configure `config/hgbrasil.local.php`:
+
+```php
+<?php
+return [
+    'api_key' => 'SUA_CHAVE_HG_AQUI',
+];
+```
+
+Em produção, prefira a variável de ambiente `HGBRASIL_API_KEY`.
+
+### brapi.dev
+
+Responsável por ações, FIIs e ETFs da B3. O backend prioriza o endpoint `/api/quote/list`, que já retorna vários ativos e evita fazer uma requisição para cada ticker.
+
+Configure `config/brapi.local.php`:
+
+```php
+<?php
+return [
+    'api_key' => 'SEU_TOKEN_BRAPI_AQUI',
+];
+```
+
+Em produção, prefira a variável de ambiente `BRAPI_API_KEY`.
+
+Sem token da brapi, o sistema tenta a listagem pública e, se houver exigência de autenticação, usa como fallback os quatro tickers oficiais de sandbox (`PETR4`, `VALE3`, `ITUB4` e `MGLU3`) para não derrubar a página.
+
+Os dados da brapi ficam em cache por 15 minutos. Se qualquer uma das APIs estiver temporariamente indisponível, o último cache salvo continua sendo exibido quando existir.
+
+> Não versione `config/hgbrasil.local.php` nem `config/brapi.local.php`. Chaves de API devem ser tratadas como segredo.

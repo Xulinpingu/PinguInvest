@@ -2,7 +2,7 @@
 
 session_start();
 
-$logado = isset($_SESSION['id_usuario']);
+require_once "../actions/check_logado.php";
 
 ?>
 
