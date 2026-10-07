@@ -12,6 +12,8 @@ O PinguInvest é uma plataforma web desenvolvida para auxiliar usuários no gere
 
 A proposta do sistema é centralizar informações financeiras em um único ambiente, permitindo o acompanhamento da carteira de investimentos, análise patrimonial e acesso a conteúdos educativos relacionados ao mercado financeiro.
 
+<i align="center;">Durante o desenvolvimento do projeto foram utilizadas ferramentas de Inteligência Artificial como apoio à revisão de código e à comparação de possíveis soluções. As respostas obtidas foram analisadas, verificadas e testadas pelo aluno. As ferramentas utilizadas, suas finalidades, etapas de utilização e formas de validação encontram-se detalhadas na DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL, apresentada ao final desta atividade.</i>
+
 ---
 
 ## 🎯 Objetivo
@@ -167,3 +169,78 @@ Sem token da brapi, o sistema tenta a listagem pública e, se houver exigência 
 Os dados da brapi ficam em cache por 15 minutos. Se qualquer uma das APIs estiver temporariamente indisponível, o último cache salvo continua sendo exibido quando existir.
 
 > Não versione `config/hgbrasil.local.php` nem `config/brapi.local.php`. Chaves de API devem ser tratadas como segredo.
+
+---
+
+## DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+### ChatGPT
+<ul>
+  
+  <li>
+    <strong>Etapa:</strong> Artigo;
+    <br>
+    <strong>Finalidade:</strong> Utilizado na organização e estrturação do arquivo README.md;
+    <br>
+    <strong>Validação:</strong> Revisado pelos integrantes de PinguInvest com devidas alterações tomadas visando a identidade da marca.
+  </li>
+  <br>
+  <li>
+    <strong>Etapa:</strong> Desenvolvimento;
+    <br>
+    <strong>Finalidade:</strong> Sugestões sobre a estrutura e organização do banco de dados;
+    <br>
+    <strong>Validação:</strong> Revisão por parte dos integrantes com exclusão de partes vistas como desnecessárias e inclusão de outras não inclusas inicialmente.
+  </li>
+  <br>
+  <li>
+    <strong>Etapa:</strong> Desenvolvimento;
+    <br>
+    <strong>Finalidade:</strong> Auxílio com códigos PHP e JS;
+    <br>
+    <strong>Validação:</strong> Devidamente testado visando o objetivo que devia cumprir e usado de base para aprendizado e compreensão mais profunda sobre o código.
+  </li>
+  <br>
+  <li>
+    <strong>Etapa:</strong> Desenvolvimento;
+    <br>
+    <strong>Finalidade:</strong> Auxílio com estilização CSS;
+    <br>
+    <strong>Validação:</strong> Olhando no localhost e validando código usado para o cumprimento do que foi pedido.
+  </li>
+  
+</ul>
+
+### Claude
+<ul>
+
+  <li>
+    <strong>Etapa:</strong> Desenvolvimento;
+    <br>
+    <strong>Finalidade:</strong> Auxílio com códigos PHP e JS;
+    <br>
+    <strong>Validação:</strong> Devidamente testado visando o objetivo que devia cumprir e usado de base para aprendizado e compreensão mais profunda sobre o código.
+  </li>
+  <br>
+  <li>
+    <strong>Etapa:</strong> Finalização;
+    <br>
+    <strong>Finalidade:</strong> Organização do código estruturalmente e com comentários;
+    <br>
+    <strong>Validação:</strong> Códigos mudados checados e testados para averiguar mudanças no site, comentários lidos para ver se apresentavam corretamente o que devia.
+  </li>
+  
+</ul>
+
+## GitHub Copilot
+<ul>
+
+  <li>
+    <strong>Etapa:</strong> Desenvolvimento;
+    <br>
+    <strong>Finalidade:</strong> Sugestões e autocompletar código;
+    <br>
+    <strong>Validação:</strong> Códigos averiguados por meio de testes e compreensão do que foi feito.
+  </li>
+  
+</ul>
