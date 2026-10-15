@@ -507,6 +507,54 @@ footer div a:active {
     color: var(--secondary-text);
 }
 
+div:has(> #filtro-periodo){
+    position: relative;
+}
+
+div:has(> #filtro-periodo)::after{
+    content: ">";
+
+    font-size: 19px;
+
+    color: white;
+
+    position: absolute;
+    position-anchor: --filtro-periodo;
+
+    left: calc(anchor(--filtro-periodo right) - 17px);
+    top: anchor(--filtro-periodo top);
+
+    transition: 0.2s ease;
+}
+
+div:has(> #filtro-periodo:focus)::after{
+    transform: rotate(90deg);
+}
+
+#filtro-periodo {
+    anchor-name: --filtro-periodo;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg-page);
+
+    padding: 5px;
+    padding-right: 20px;
+
+    margin-bottom: 10px;
+    
+    display: flex;
+    justify-self: center;
+}
+
+#filtro-periodo:focus {
+    outline: none;
+}
+
 
 /* ==========================================================================
    8. BOTÕES FLUTUANTES (FAB / .func-btn)

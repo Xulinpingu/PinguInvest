@@ -85,20 +85,18 @@ $sql = "
     INNER JOIN (
         SELECT 
             id_usuario,
-            YEAR(registrado_em) AS ano,
-            MONTH(registrado_em) AS mes,
+            DATE(registrado_em) AS dia,
             MAX(registrado_em) AS ultima_data
         FROM historico_carteira
         WHERE id_usuario = :id_usuario
         GROUP BY 
             id_usuario,
-            YEAR(registrado_em),
-            MONTH(registrado_em)
+            DATE(registrado_em)
     ) ultimos
         ON h.id_usuario = ultimos.id_usuario
         AND h.registrado_em = ultimos.ultima_data
     WHERE h.id_usuario = :id_usuario
-    ORDER BY h.registrado_em
+    ORDER BY h.registrado_em ASC
 ";
 
 $stmt = $pdo->prepare($sql);
@@ -426,6 +424,14 @@ foreach ($alocacao as $item) {
 
                 <?php else: ?>
 
+                    <div>
+                        <select id="filtro-periodo">
+                            <option value="dia">Por dia</option>
+                            <option value="mes" selected>Por mês</option>
+                            <option value="ano">Por ano</option>
+                        </select>
+                    </div>
+
                     <canvas id="line-chart"></canvas>
 
                 <?php endif; ?>
@@ -692,67 +698,94 @@ foreach ($alocacao as $item) {
 
     if (ctxLine && historico.length > 0) {
 
-        const labels = historico.map(item => {
-            const data = new Date(item.registrado_em);
+        // Agrupa os registros e guarda o ÚLTIMO valor de cada período
+        function agruparHistorico(periodo) {
+            const mapa = new Map();
 
-            return data.toLocaleDateString('pt-BR', {
-                month: 'short',
-                year: 'numeric'
+            historico.forEach(item => {
+                const dataStr = item.registrado_em.slice(0, 10); // "YYYY-MM-DD"
+                let chave;
+
+                if (periodo === 'dia') {
+                    chave = dataStr; 
+                } else if (periodo === 'mes') {
+                    chave = dataStr.slice(0, 7);
+                } else {
+                    chave = dataStr.slice(0, 4);
+                }
+
+                mapa.set(chave, Number(item.valor_total));
             });
-        });
 
-        const valores = historico.map(item => {
-            return Number(item.valor_total);
-        });
+            return {
+                labels: Array.from(mapa.keys()).map(c => formatarRotulo(c, periodo)),
+                valores: Array.from(mapa.values())
+            };
+        }
+
+        function formatarRotulo(chave, periodo) {
+            const [ano, mes, dia] = chave.split('-');
+
+            if (periodo === 'dia') {
+                return new Date(ano, mes - 1, dia).toLocaleDateString('pt-BR', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                });
+            }
+            if (periodo === 'mes') {
+                return new Date(ano, mes - 1, 1).toLocaleDateString('pt-BR', {
+                    month: 'short',
+                    year: 'numeric'
+                });
+            }
+            return ano;
+        }
+
+        const inicial = agruparHistorico('mes');
 
         lineChartInstance = new Chart(ctxLine, {
             type: 'line',
-
             data: {
-                labels: labels,
-
+                labels: inicial.labels,
                 datasets: [{
                     label: 'Patrimônio',
-                    data: valores,
+                    data: inicial.valores,
                     fill: false,
                     borderColor: 'rgb(46, 212, 122)',
                     tension: 0.1
                 }]
             },
-
             options: {
                 responsive: true,
-
                 scales: {
                     x: {
-                        ticks: {
-                            color: buildChartTextColor()
-                        },
-                        grid: {
-                            color: buildChartGridColor()
-                        }
+                        ticks: { color: buildChartTextColor() },
+                        grid: { color: buildChartGridColor() }
                     },
-
                     y: {
                         beginAtZero: false,
-
-                        ticks: {
-                            color: buildChartTextColor()
-                        },
-                        grid: {
-                            color: buildChartGridColor()
-                        }
+                        ticks: { color: buildChartTextColor() },
+                        grid: { color: buildChartGridColor() }
                     }
                 },
-
                 plugins: {
                     legend: {
-                        labels: {
-                            color: buildChartTextColor()
-                        }
+                        labels: { color: buildChartTextColor() }
                     }
                 }
             }
+        });
+
+        // Troca de filtro: só atualiza os dados e redesenha
+        document.getElementById('filtro-periodo').addEventListener('change', e => {
+            const { labels, valores } = agruparHistorico(e.target.value);
+
+            lineChartInstance.data.labels = labels;
+            lineChartInstance.data.datasets[0].data = valores;
+            lineChartInstance.update();
+
+            e.target.blur();
         });
     }
 
