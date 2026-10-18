@@ -101,15 +101,16 @@ Desenvolver uma plataforma moderna e intuitiva capaz de auxiliar investidores in
 ```text
 PinguInvest/
 ├── assets/
-│   ├── css/
-│   ├── images/
-│   └── js/
-├── config/
-├── database/
-├── includes/
-├── pages/
-├── planejamento/
-└── README.md
+│   ├── css/             # Estilos e aparência da interface
+│   ├── images/          # Imagens, ícones e identidade visual
+│   └── js/              # Scripts e interações da aplicação
+│
+├── config/              # Configurações, conexões e integrações
+├── database/            # Scripts e estrutura do banco de dados
+├── includes/            # Componentes e funções PHP reutilizáveis
+├── pages/               # Páginas e funcionalidades do sistema
+├── planejamento/        # Documentação e planejamento do projeto
+└── README.md            # Documentação principal
 ```
 
 ---
@@ -172,75 +173,21 @@ Os dados da brapi ficam em cache por 15 minutos. Se qualquer uma das APIs estive
 
 ---
 
-## DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+## 🤖 DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
 
-### ChatGPT
-<ul>
-  
-  <li>
-    <strong>Etapa:</strong> Artigo;
-    <br>
-    <strong>Finalidade:</strong> Utilizado na organização e estrturação do arquivo README.md;
-    <br>
-    <strong>Validação:</strong> Revisado pelos integrantes de PinguInvest com devidas alterações tomadas visando a identidade da marca.
-  </li>
-  <br>
-  <li>
-    <strong>Etapa:</strong> Desenvolvimento;
-    <br>
-    <strong>Finalidade:</strong> Sugestões sobre a estrutura e organização do banco de dados;
-    <br>
-    <strong>Validação:</strong> Revisão por parte dos integrantes com exclusão de partes vistas como desnecessárias e inclusão de outras não inclusas inicialmente.
-  </li>
-  <br>
-  <li>
-    <strong>Etapa:</strong> Desenvolvimento;
-    <br>
-    <strong>Finalidade:</strong> Auxílio com códigos PHP e JS;
-    <br>
-    <strong>Validação:</strong> Devidamente testado visando o objetivo que devia cumprir e usado de base para aprendizado e compreensão mais profunda sobre o código.
-  </li>
-  <br>
-  <li>
-    <strong>Etapa:</strong> Desenvolvimento;
-    <br>
-    <strong>Finalidade:</strong> Auxílio com estilização CSS;
-    <br>
-    <strong>Validação:</strong> Olhando no localhost e validando código usado para o cumprimento do que foi pedido.
-  </li>
-  
-</ul>
+Durante o desenvolvimento do **PinguInvest**, foram utilizadas ferramentas de Inteligência Artificial generativa como recursos de apoio ao planejamento, à programação, à produção de elementos visuais e à documentação do projeto.
 
-### Claude
-<ul>
+As sugestões e os materiais produzidos com auxílio dessas ferramentas foram submetidos à análise dos integrantes, com adaptações, revisões e testes conforme sua finalidade.
 
-  <li>
-    <strong>Etapa:</strong> Desenvolvimento;
-    <br>
-    <strong>Finalidade:</strong> Auxílio com códigos PHP e JS;
-    <br>
-    <strong>Validação:</strong> Devidamente testado visando o objetivo que devia cumprir e usado de base para aprendizado e compreensão mais profunda sobre o código.
-  </li>
-  <br>
-  <li>
-    <strong>Etapa:</strong> Finalização;
-    <br>
-    <strong>Finalidade:</strong> Organização do código estruturalmente e com comentários;
-    <br>
-    <strong>Validação:</strong> Códigos mudados checados e testados para averiguar mudanças no site, comentários lidos para ver se apresentavam corretamente o que devia.
-  </li>
-  
-</ul>
+A tabela a seguir apresenta as ferramentas utilizadas, suas respectivas aplicações e os procedimentos de validação adotados pelo grupo.
 
-## GitHub Copilot
-<ul>
-
-  <li>
-    <strong>Etapa:</strong> Desenvolvimento;
-    <br>
-    <strong>Finalidade:</strong> Sugestões e autocompletar código;
-    <br>
-    <strong>Validação:</strong> Códigos averiguados por meio de testes e compreensão do que foi feito.
-  </li>
-  
-</ul>
+| Ferramenta | Etapa | Finalidade | Validação |
+|---|---|---|---|
+| **Gemini** | Planejamento | Auxílio na criação de imagens, logotipos e elementos da identidade visual do projeto. | Os materiais gerados foram analisados e editados para corrigir inconsistências e adequá-los à identidade visual do PinguInvest. |
+| **ChatGPT** | Documentação | Auxílio na organização e estruturação do arquivo `README.md`. | O conteúdo foi revisado pelos integrantes, com correções e adaptações para representar adequadamente o projeto. |
+| **ChatGPT** | Desenvolvimento | Sugestões para a modelagem, estruturação e organização do banco de dados. | As propostas foram analisadas pelo grupo, que removeu elementos desnecessários e acrescentou estruturas conforme as necessidades do sistema. |
+| **ChatGPT** | Desenvolvimento | Auxílio na elaboração, compreensão e correção de códigos PHP e JavaScript. | As soluções foram analisadas e testadas no ambiente de desenvolvimento, sendo utilizadas também para aprofundar a compreensão do código. |
+| **ChatGPT** | Desenvolvimento | Sugestões de estilização CSS e melhorias na apresentação visual da plataforma. | As alterações foram verificadas no ambiente local (`localhost`), com análise dos resultados visuais e ajustes quando necessários. |
+| **Claude** | Desenvolvimento | Auxílio na elaboração, revisão e correção de códigos PHP e JavaScript. | Os códigos foram analisados, testados e adaptados conforme as necessidades da aplicação, buscando compreender seu funcionamento antes da integração ao projeto. |
+| **Claude** | Organização do código | Auxílio na reorganização estrutural dos arquivos e na elaboração de comentários explicativos. | As modificações foram revisadas e testadas para verificar possíveis impactos no funcionamento do sistema. Os comentários foram analisados quanto à clareza e à correspondência com o código. |
+| **GitHub Copilot** | Desenvolvimento | Sugestões de código e preenchimento automático durante a programação. | As sugestões utilizadas foram revisadas e verificadas por meio de testes, buscando garantir sua adequação às funcionalidades desenvolvidas. |
